@@ -1,0 +1,27 @@
+{
+  "name": "wialon-express-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-specifier-resolution=node dist/app.js",
+    "dev": "nodemon src/app.ts",
+    "build": "tsc && ncp src/views dist/views"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "node": "^21.7.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.27",
+    "ncp": "^2.0.0",
+    "typescript": "^5.4.2"
+  }
+}
