@@ -5,8 +5,8 @@
     "outDir": "dist",
     "strict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "include": ["src/**/*"],
-  "typeRoots": ["./src/typings", "./node_modules/@types"]
+  "include": ["src/**/*"]
 }

@@ -8,7 +8,11 @@ function App() {
   const [count, setCount] = useState(0)
 
   const handleLogin = () => {
-    const loginWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token', 'Login', 'width=500,height=500');
+    let height = 500;
+    let width = 500;
+    let left = (screen.width - width) / 2;
+    let top = (screen.height - height) / 2;
+    const loginWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token', 'Login', `width=${width},height=${height},left=${left},top=${top}`);
 
     const timer = setInterval(() => {
       if (loginWindow && loginWindow.closed) {

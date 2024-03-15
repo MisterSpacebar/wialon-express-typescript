@@ -13,7 +13,8 @@ router.post('/', async (req, res) => {
         // Pass the token to the authentication service
         const user: any = await authService.authenticate(token);
 
-        req.session.user = {
+        // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
+        (req.session as any).user = {
             // unique session id per login
             session_id: user.data.eid,
             name: user.data.au,
