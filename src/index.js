@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var path = require("path");
-var app = express();
-var port = 3000;
+let express = require("express");
+let path = require("path");
+let app = express();
+let port = 3000;
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 // Set the view engine to EJS
