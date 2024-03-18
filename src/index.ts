@@ -13,7 +13,6 @@ const port: number = 3000;
 app.use(express.json());
 
 // Set up the session middleware
-
 let sessionOptions = {
   secret: 'your-secret',
   resave: false,

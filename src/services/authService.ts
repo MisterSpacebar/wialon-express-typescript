@@ -10,13 +10,13 @@ async function authenticate(token: string) {
     // Check if the request was successful
     if (!response.ok) {
       throw new Error('Failed to authenticate token');
+    } else {
+      // Parse the response body as JSON
+      const data = await response.json();
+
+      // Return the data
+      return data;
     }
-  
-    // Parse the response body as JSON
-    const data = await response.json();
-  
-    // Return the data
-    return data;
   }
   
   export default { authenticate };

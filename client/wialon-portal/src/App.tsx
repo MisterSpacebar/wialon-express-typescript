@@ -1,11 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Switch, useHistory, BrowserRouter as Router, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import User from './User';
+
 
 function App() {
   const [count, setCount] = useState(0)
+  const history = useHistory();
+
+  useEffect(() => {
+    const authenticate = async () => {
+      try {
+        const response = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token: 'your-token' })
+        });
+  
+        const data = await response.json();
+  
+        // Check if a redirect was returned in the response
+        if (data.redirect) {
+          // Use the 'history' object to redirect
+          history.push(data.redirect);
+        }
+      } catch (error) {
+        console.error('Authentication failed:', error);
+      }
+    };
+  
+    authenticate();
+  }, [history]); // Include 'history' in the dependency array
 
   const handleLogin = () => {
     let height = 500;
@@ -54,32 +84,39 @@ function App() {
   };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={handleLogin}>
-          Login
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <>
+            <div>
+              <a href="https://vitejs.dev" target="_blank">
+                <img src={viteLogo} className="logo" alt="Vite logo" />
+              </a>
+              <a href="https://react.dev" target="_blank">
+                <img src={reactLogo} className="logo react" alt="React logo" />
+              </a>
+            </div>
+            <h1>Vite + React</h1>
+            <div className="card">
+              <button onClick={() => setCount((count) => count + 1)}>
+                count is {count}
+              </button>
+              <button onClick={handleLogin}>
+                Login
+              </button>
+              <p>
+                Edit <code>src/App.tsx</code> and save to test HMR
+              </p>
+            </div>
+            <p className="read-the-docs">
+              Click on the Vite and React logos to learn more
+            </p>
+          </>
+        </Route>
+        <Route path="/user" component={User} />
+      </Switch>
+    </Router>
+  );
 }
 
 export default App
