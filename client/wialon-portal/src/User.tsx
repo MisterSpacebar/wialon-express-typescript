@@ -1,9 +1,11 @@
+// User.tsx
 import React from 'react';
+import Header from './Header';
 
 const User = () => {
   return (
     <div>
-      <h1>Welcome to the User Page</h1>
+      <Header />
       <p>This is the User component.</p>
     </div>
   );

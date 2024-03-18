@@ -4,7 +4,9 @@ import { Application, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import path = require('path');
 
+// Import the routes
 import authRouter from './routes/auth';
+import { logoutRoute } from './routes/logout';
 
 const app: Application = express();
 const port: number = 3000;
@@ -54,6 +56,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // Set up the /auth route
 app.use('/login', authRouter);
+// set up the /logout route
+app.post('/logout', logoutRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
