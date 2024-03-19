@@ -6,7 +6,7 @@ import authService from '../services/authService';
 
 const router = express.Router();
 
-router.get('/redirect', async (req, res) => {
+router.post('/token-login', async (req, res) => {
     console.log(req);
     const authToken = req.query.access_token;
 
