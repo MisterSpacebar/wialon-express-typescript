@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('/token-login', async (req, res) => {
     console.log(req);
+    console.log('token-login route');
     const authToken = req.query.access_token;
 
     try {

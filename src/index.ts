@@ -9,7 +9,8 @@ import authRouter from './routes/auth';
 import { logoutRoute } from './routes/logout';
 
 const app: Application = express();
-const port: number = 5173;
+const portExpress: number = 3000;
+const portVite: number = 5173;
 
 // This line is needed to parse the body of incoming JSON requests
 app.use(express.json());
@@ -23,6 +24,11 @@ let sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+
+// Set up the login route
+app.use('/auth', authRouter);
+// set up the /logout route
+app.post('/logout', logoutRoute);
 
 // // Serve static files from the 'public' directory
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -39,7 +45,7 @@ app.use(session(sessionOptions));
 // Proxy requests to the Vite development server during development
 if (process.env.NODE_ENV === 'development') {
   const viteServerProxy = createProxyMiddleware({
-    target: `http://localhost:${port}`, // Vite development server default port
+    target: `http://localhost:${portVite}`, // Vite development server default port
     ws: true,
   });
   app.use(viteServerProxy);
@@ -54,11 +60,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Set up the login route
-app.use('/auth', authRouter);
-// set up the /logout route
-app.post('/logout', logoutRoute);
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(portExpress, () => {
+  console.log(`Server is running on http://localhost:${portExpress}`);
 });

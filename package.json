@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --experimental-specifier-resolution=node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon --exec ts-node --files src/index.ts",
     "build": "tsc && ncp src/views dist/views"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
   "dependencies": {
     "ejs": "^3.1.9",
     "express": "^4.18.3",
+    "express-session": "^1.18.0",
     "node": "^21.7.1",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7"

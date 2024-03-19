@@ -29,7 +29,7 @@ function App() {
     let width = 500;
     let left = (screen.width - width) / 2;
     let top = (screen.height - height) / 2;
-    const authWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/auth/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
+    const authWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
   
     // Listen for the message from the auth window
     window.addEventListener('message', (event) => {
@@ -38,7 +38,7 @@ function App() {
         const accessToken = event.data;
 
         // Send the access token to the server
-        fetch('http://localhost:5173/auth/redirect', {
+        fetch('http://localhost:3000/auth/redirect', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ function App() {
             </p>
           </>
         } />
-        <Route path="/auth/redirect" element={<Login />} />
+        <Route path="/redirect" element={<Login />} />
         <Route path="/user" element={<User />} />
       </Routes>
     </Router>

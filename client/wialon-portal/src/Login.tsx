@@ -12,17 +12,19 @@ const Login = () => {
             setLoginStatus('success');
             console.log(accessToken);
             // Send the token to your server
-            fetch('http://localhost:5173/auth/token-login', {
+            fetch('http://localhost:3000/auth/token-login', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
                 },
+                body: JSON.stringify({ accessToken })
             })
             .then(response => response.json())
             .then(data => {
                 // Handle the response from your server
                 if (data.success) {
+                    window.opener.postMessage('login-success', '*');
                     // If the login was successful, close the window after 5 seconds
                     setTimeout(() => {
                     window.close();
