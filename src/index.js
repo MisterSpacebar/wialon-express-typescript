@@ -1,4 +1,8 @@
 "use strict";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import WrappedApp from './App';
+
 Object.defineProperty(exports, "__esModule", { value: true });
 let express = require("express");
 let path = require("path");
@@ -16,3 +20,10 @@ app.get('/', function (req, res) {
 app.listen(port, function () {
     console.log("Server is running on http://localhost:".concat(port));
 });
+
+ReactDOM.render(
+    <React.StrictMode>
+      <WrappedApp />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );

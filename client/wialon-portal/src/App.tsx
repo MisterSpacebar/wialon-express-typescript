@@ -1,92 +1,58 @@
 import { useState, useEffect } from 'react'
-import { Switch, useHistory, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 import User from './User';
-
+import Login from './Login';
 
 function App() {
   const [count, setCount] = useState(0)
-  const history = useHistory();
-
-  useEffect(() => {
-    const authenticate = async () => {
-      try {
-        const response = await fetch('/api/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ token: 'your-token' })
-        });
-  
-        const data = await response.json();
-  
-        // Check if a redirect was returned in the response
-        if (data.redirect) {
-          // Use the 'history' object to redirect
-          history.push(data.redirect);
-        }
-      } catch (error) {
-        console.error('Authentication failed:', error);
-      }
-    };
-  
-    authenticate();
-  }, [history]); // Include 'history' in the dependency array
 
   const handleLogin = () => {
     let height = 500;
     let width = 500;
     let left = (screen.width - width) / 2;
     let top = (screen.height - height) / 2;
-    const loginWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token', 'Login', `width=${width},height=${height},left=${left},top=${top}`);
+    const authWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/auth/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
+  
+    // Listen for the message from the auth window
+    window.addEventListener('message', (event) => {
+      // Make sure the message is from the auth window
+      if (event.source === authWindow) {
+        const accessToken = event.data;
 
-    const timer = setInterval(() => {
-      if (loginWindow && loginWindow.closed) {
-        clearInterval(timer);
-        return;
-      }
-
-      let url: any;
-      try {
-        url = loginWindow?.location.href;
-      } catch (err) {
-        console.error('Failed to access login window URL');
-        return;
-      }
-
-      if (url.includes('access_token=')) {
-        clearInterval(timer);
-        const token = new URL(url).searchParams.get('access_token');
-        console.log('Token:', token);
-        // Send the token back to the server
-        fetch('/route/auth', {
+        // Send the access token to the server
+        fetch('http://localhost:5173/auth/redirect', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token }),
+          body: JSON.stringify({ accessToken }),
         })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
         .then(data => {
-          // Handle the server's response
+          // Handle the response...
           console.log(data);
+          console.log('User logged in');
         })
         .catch(error => {
-          // Handle the error
-          console.error('Error:', error);
+          console.error('There has been a problem with your fetch operation:', error);
         });
       }
-    }, 1000);
+    });
   };
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
+      <Routes>
+        <Route path="/" element={
           <>
             <div>
               <a href="https://vitejs.dev" target="_blank">
@@ -112,11 +78,11 @@ function App() {
               Click on the Vite and React logos to learn more
             </p>
           </>
-        </Route>
-        <Route path="/user" component={User} />
-      </Switch>
+        } />
+        <Route path="/auth/redirect" element={<Login />} />
+      </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;

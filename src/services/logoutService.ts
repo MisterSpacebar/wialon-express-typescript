@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 export const logout = async (req: Request, res: Response) => {
   try {
     const sessionId = req.session.id; // Replace this with how you retrieve the session ID
+    console.log(sessionId);
     const response = await fetch(`https://hst-api.wialon.com/wialon/ajax.html?svc=core/logout&params={}&sid=${sessionId}`);
 
     // If the Wialon API responds with a success status, destroy the session

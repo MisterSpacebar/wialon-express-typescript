@@ -6,13 +6,12 @@ import authService from '../services/authService';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-    const token = req.body.token;
+router.get('/redirect', async (req, res) => {
+    console.log(req);
+    const authToken = req.query.access_token;
 
     try {
-        // Pass the token to the authentication service
-        const user: any = await authService.authenticate(token);
-        console.log(user.data);
+        const user: any = await authService.authenticate(authToken as string);
 
         // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
         req.session.user = {
@@ -21,13 +20,10 @@ router.post('/', async (req, res) => {
             name: user.data.au,
             user_id: user.data.user.id
         };
-
         console.log(req.session.user);
-
-        res.status(200).json({ redirect: '/user' });
-    } catch (error: any) {
-        // Handle any errors that occurred during authentication
-        res.status(500).json({ "error" : error.toString() });
+        res.send('Authentication successful');
+    } catch (err) {
+        res.status(500).send('Authentication failed');
     }
 });
 

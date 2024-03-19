@@ -1,6 +1,7 @@
 // src/services/authService.ts
 
 async function authenticate(token: string) {
+  console.log(token);
     // Construct the URL with the token
     const url: string = `https://hst-api.wialon.us/wialon/ajax.html?svc=token/login&params={"token":"${token}"}`;
   
