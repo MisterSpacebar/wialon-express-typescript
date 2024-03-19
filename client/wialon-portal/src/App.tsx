@@ -10,6 +10,20 @@ import Login from './Login';
 function App() {
   const [count, setCount] = useState(0)
 
+  useEffect(() => {
+    const handleLoginSuccess = (event: MessageEvent) => {
+      if (event.data === 'login-success') {
+        window.location.href = '/user'; // replace with your page URL
+      }
+    };
+  
+    window.addEventListener('message', handleLoginSuccess);
+  
+    return () => {
+      window.removeEventListener('message', handleLoginSuccess);
+    };
+  }, []);
+
   const handleLogin = () => {
     let height = 500;
     let width = 500;
@@ -80,6 +94,7 @@ function App() {
           </>
         } />
         <Route path="/auth/redirect" element={<Login />} />
+        <Route path="/user" element={<User />} />
       </Routes>
     </Router>
   );

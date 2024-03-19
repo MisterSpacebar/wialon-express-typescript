@@ -7,6 +7,7 @@ const Login = () => {
         const url = window.location.href;
         const params = new URLSearchParams(url);
         const accessToken = params.get('access_token');
+        
         if (accessToken) {
             setLoginStatus('success');
             console.log(accessToken);
@@ -31,17 +32,20 @@ const Login = () => {
         } else {
             setLoginStatus('failure');
         }
-      }, []);
+    }, []);
 
-      return (
-        <div>
-            {loginStatus === 'success' ? (
-                <div>Login successful! You will be redirected in 5 seconds.</div>
-            ) : loginStatus === 'failure' ? (
-                <div>Login failed!</div>
-            ) : null}
-        </div>
-      );
-    };
-    
+    let message;
+    if (loginStatus === 'success') {
+    message = <div>Login successful! You will be redirected in 5 seconds.</div>;
+    } else if (loginStatus === 'failure') {
+    message = <div>Login failed!</div>;
+    }
+
+    return (
+    <div>
+        {message}
+    </div>
+    );
+}
+
 export default Login;
