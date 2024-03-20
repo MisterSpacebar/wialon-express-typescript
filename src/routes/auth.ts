@@ -7,21 +7,27 @@ import authService from '../services/authService';
 const router = express.Router();
 
 router.post('/token-login', async (req, res) => {
-    console.log(req);
+    console.log(req.body.accessToken);
     console.log('token-login route');
-    const authToken = req.query.access_token;
+    const authToken = req.body.accessToken;
 
     try {
         const user: any = await authService.authenticate(authToken as string);
 
-        // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
-        req.session.user = {
-            // unique session id per login
-            session_id: user.data.eid,
-            name: user.data.au,
-            user_id: user.data.user.id
-        };
-        console.log(req.session.user);
+        if (user) {
+            console.log('Authentication successful');
+            console.log(user);
+            // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
+            req.session.user = {
+                // unique session id per login
+                session_id: user.eid,
+                name: user.au,
+                user_id: user.user.id
+            };
+            console.log(req.session.user);
+        } else {
+            res.status(401).send('Authentication failed');
+        }
         res.send('Authentication successful');
     } catch (err) {
         res.status(500).send('Authentication failed');

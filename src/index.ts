@@ -1,5 +1,6 @@
 import express = require('express');
 import session = require('express-session');
+import cors from 'cors';
 import { Application, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import path = require('path');
@@ -7,6 +8,7 @@ import path = require('path');
 // Import the routes
 import authRouter from './routes/auth';
 import { logoutRoute } from './routes/logout';
+import userSessionRouter from './routes/userSession';
 
 const app: Application = express();
 const portExpress: number = 3000;
@@ -14,6 +16,11 @@ const portVite: number = 5173;
 
 // This line is needed to parse the body of incoming JSON requests
 app.use(express.json());
+// Set up the CORS middleware
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow the React application to connect to the server
+  credentials: true // Set this to true to allow the session cookie to be sent back and forth
+}));
 
 // Set up the session middleware
 let sessionOptions = {
@@ -28,19 +35,9 @@ app.use(session(sessionOptions));
 // Set up the login route
 app.use('/auth', authRouter);
 // set up the /logout route
-app.post('/logout', logoutRoute);
-
-// // Serve static files from the 'public' directory
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// // Set the view engine to EJS
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
-
-// // Render the index view
-// app.get('/', (req: Request, res: Response) => {
-//   res.render('index', { message: 'Hello, World!' });
-// });
+app.get('/logout', logoutRoute);
+// Set up the user session route
+app.use('/user', userSessionRouter);
 
 // Proxy requests to the Vite development server during development
 if (process.env.NODE_ENV === 'development') {

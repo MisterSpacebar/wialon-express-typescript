@@ -1,20 +1,23 @@
 // Header.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
         try {
           const response = await fetch('/logout', {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({}), // If you need to send data to your Express server, add it here
+            }
           });
       
           if (response.ok) {
             console.log('User logged out');
-            // Handle successful logout (e.g., redirect to login page)
+            // Handle successful logout and redirect to the login page
+            navigate('/');
           } else {
             // Handle unsuccessful logout
             console.error('Logout failed');
