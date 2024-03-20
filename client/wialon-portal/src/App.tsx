@@ -7,13 +7,35 @@ import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-route
 import User from './User';
 import Login from './Login';
 
+//janky way to get the access token from the popup window
+const template = {
+  session_id: '',
+  name: '',
+  user_id: ''
+};
+
 function App() {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
     const handleLoginSuccess = (event: MessageEvent) => {
       if (event.data === 'login-success') {
+        console.log(event.data);
         window.location.href = '/user'; // replace with your page URL
+      } else {
+        try {
+          console.log('raw data:', event.data);
+          const data = JSON.parse(event.data);
+          console.log(data);
+
+          window.location.href = '/user'; // replace with your page URL
+          // IMPORTANT: Do not forget to remove the event listener AND TO SAVE THE USER DATA TO THE STATE
+          
+        } catch (error) {
+          // The message is not a JSON string. Ignore it.
+          console.log('The message is not a JSON string. Ignore it.\n Error:', error);
+          console.log(event.data)
+        }
       }
     };
   
@@ -29,38 +51,7 @@ function App() {
     let width = 500;
     let left = (screen.width - width) / 2;
     let top = (screen.height - height) / 2;
-    const authWindow = window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
-  
-    // Listen for the message from the auth window
-    window.addEventListener('message', (event) => {
-      // Make sure the message is from the auth window
-      if (event.source === authWindow) {
-        const accessToken = event.data;
-
-        // Send the access token to the server
-        fetch('http://localhost:3000/auth/redirect', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ accessToken }),
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          // Handle the response...
-          console.log(data);
-          console.log('User logged in');
-        })
-        .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-        });
-      }
-    });
+    window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
   };
 
   return (

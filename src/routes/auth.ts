@@ -30,13 +30,14 @@ router.post('/token-login', async (req, res) => {
                 } else {
                     console.log('Session saved');
                     console.log(req.session.user);
+                    res.send(req.session.user);
                 }
-            });
-            console.log("user session object: "+req.session.user);
+            })
+            console.log('session object');
+            console.log(req.session.user);
         } else {
             res.status(401).send('Authentication failed');
         }
-        res.send(req.session.user);
     } catch (err) {
         res.status(500).send('Authentication failed');
     }

@@ -17,6 +17,7 @@ const Login = () => {
                 // Send the token to your server
                 fetch('http://localhost:3000/auth/token-login', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -27,12 +28,17 @@ const Login = () => {
                 .then(data => {
                     // Handle the response from your server
                     console.log(data);
+                    let user = JSON.parse(data);
+                    console.log(user.name);
+                    console.log(user.session_id);
+                    console.log(user.user_id);
                     setRequestSent(true);
-                    window.opener.postMessage('login-success', '*');
+                    //window.opener.postMessage('login-success', '*');
+                    window.opener.postMessage(JSON.stringify(user) , '*');
                     // If the login was successful, close the window after 5 seconds
                     setTimeout(() => {
                         window.close();
-                    }, 3500);
+                    }, 13500);
                 });
             } else {
                 setLoginStatus('failure');

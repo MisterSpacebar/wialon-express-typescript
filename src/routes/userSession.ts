@@ -10,7 +10,7 @@ type User = {
 
 router.get('/session', (req, res) => {
     console.log('connected to user session route');
-    console.log('user: '+req.session.user);
+    console.log('user: ',req.session.user);
     if (req.session.user) {
       const user: User = {
         status: true,
