@@ -9,8 +9,9 @@ type User = {
 };
 
 const UserComponent = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const [requestSent, setRequestSent] = useState(false);
+
+  const [user, setUser] = useState<User | null>(null);
+  const [requestSent, setRequestSent] = useState(false);
 
     useEffect(() => {
       if(!requestSent){
@@ -19,12 +20,13 @@ const UserComponent = () => {
             const response = await fetch('http://localhost:3000/user/session');
             if (response.ok) {
               const responseBody = await response.text();
-              console.log('Response body:', responseBody);
+              console.log('Response body:', response);
   
               // Now try to parse it as JSON
               const data = JSON.parse(responseBody);
               console.log('Fetched data:', data);
               setUser(data.user);
+              console.log('User data:', user);
               setRequestSent(true);
             } else {
               console.error('Fetching user data failed with status:', response.status);

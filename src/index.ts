@@ -1,6 +1,8 @@
-import express = require('express');
-import session = require('express-session');
+import express from 'express';
+import session from 'express-session';
 import cors from 'cors';
+import connectRedis from 'connect-redis';
+import redis from 'redis';
 import { Application, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import path = require('path');
@@ -22,12 +24,21 @@ app.use(cors({
   credentials: true // Set this to true to allow the session cookie to be sent back and forth
 }));
 
+// Create a new RedisStore
+const RedisStore = require('connect-redis')(session);
+
+// Create a new redis client
+const redisClient = redis.createClient({
+  url: 'redis://localhost:6379' // replace with your Redis URL
+});
+
 // Set up the session middleware
-let sessionOptions = {
+let sessionOptions: session.SessionOptions = {
+  store: new RedisStore({ client: redisClient }),
   secret: 'your-secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true }
+  cookie: { secure: false, maxAge: 30000 }
 };
 
 app.use(session(sessionOptions));

@@ -27,12 +27,12 @@ const Login = () => {
                 .then(data => {
                     // Handle the response from your server
                     console.log(data);
-                        setRequestSent(true);
-                        window.opener.postMessage('login-success', '*');
-                        // If the login was successful, close the window after 5 seconds
-                        setTimeout(() => {
-                            window.close();
-                        }, 5000);
+                    setRequestSent(true);
+                    window.opener.postMessage('login-success', '*');
+                    // If the login was successful, close the window after 5 seconds
+                    setTimeout(() => {
+                        window.close();
+                    }, 3500);
                 });
             } else {
                 setLoginStatus('failure');

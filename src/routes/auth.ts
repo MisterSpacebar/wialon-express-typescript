@@ -24,11 +24,19 @@ router.post('/token-login', async (req, res) => {
                 name: user.au,
                 user_id: user.user.id
             };
-            console.log(req.session.user);
+            req.session.save( (err) => {
+                if(err){
+                    console.log(err);
+                } else {
+                    console.log('Session saved');
+                    console.log(req.session.user);
+                }
+            });
+            console.log("user session object: "+req.session.user);
         } else {
             res.status(401).send('Authentication failed');
         }
-        res.send('Authentication successful');
+        res.send(req.session.user);
     } catch (err) {
         res.status(500).send('Authentication failed');
     }
