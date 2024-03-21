@@ -1,9 +1,29 @@
 import { access } from 'fs';
 import React, { useState, useEffect } from 'react';
+import DataContext  from './contexts/DataContext';
+import { SetDataContext } from './contexts/SetDataContext';
+
+type User = {
+    session_id: string;
+    name: string;
+    user_id: number;
+};
+
+let defaultUser: User = {
+    session_id: '',
+    name: '',
+    user_id: 0
+};
 
 const Login = () => {
+    
     const [loginStatus, setLoginStatus] = useState('');
     const [requestSent, setRequestSent] = useState(false);
+    const [data, setData] = useState<User>(defaultUser);
+
+    let StateData = React.useContext(DataContext);
+    const newData = React.useContext(SetDataContext);
+    console.log('StateData:', StateData);
 
     useEffect(() => {
         if(!requestSent) {
@@ -27,18 +47,27 @@ const Login = () => {
                 .then(response => response.text())
                 .then(data => {
                     // Handle the response from your server
-                    console.log(data);
+                    console.log("server response: ",data);
                     let user = JSON.parse(data);
-                    console.log(user.name);
-                    console.log(user.session_id);
-                    console.log(user.user_id);
+                    console.log('User data:', user);
+                    if (user && 'session_id' in user && 'name' in user && 'user_id' in user) {
+                        let loggedUser = {
+                            session_id: user.session_id,
+                            name: user.name,
+                            user_id: user.user_id
+                        }
+                        setData(loggedUser);
+                        newData?.(loggedUser);
+                    } else {
+                        console.error('Unexpected user data:', user);
+                    }
                     setRequestSent(true);
-                    //window.opener.postMessage('login-success', '*');
+                    window.opener.postMessage('login-success', '*');
                     window.opener.postMessage(JSON.stringify(user) , '*');
                     // If the login was successful, close the window after 5 seconds
                     setTimeout(() => {
                         window.close();
-                    }, 13500);
+                    }, 23000);
                 });
             } else {
                 setLoginStatus('failure');
@@ -54,10 +83,15 @@ const Login = () => {
     message = <div>Login failed!</div>;
     }
 
+
     return (
-    <div>
-        {message}
-    </div>
+        <DataContext.Provider value={data}>
+            <SetDataContext.Provider value={setData}>
+                <div>
+                    {message}
+                </div>
+            </SetDataContext.Provider>
+        </DataContext.Provider>
     );
 }
 
