@@ -1,50 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
 import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-router-dom';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './App.css'
 
-// default React state handler
-import DataContext from './contexts/DataContext';
-
 import User from './User';
 import Login from './Login';
 
+type User = {
+  session_id: string;
+  name: string;
+  user_id: number;
+};
+
+export const DataContext = createContext<{ data: User | null, setData: React.Dispatch<React.SetStateAction<User | null>> }>({ data: null, setData: () => {} });
+
 function App() {
 
-  type User = {
-    session_id: string;
-    name: string;
-    user_id: number;
-  };
-
-  let userData: User = {
-    session_id: '',
-    name: '',
-    user_id: 0
-  };
-
-  const DataContext = React.createContext<User | null>(null);
-
   const [count, setCount] = useState(0)
-  const [data, setData] = React.useState<User | null>(null);
+  const [data, setData] = useState<User | null>(null);
 
   useEffect(() => {
     const handleLoginSuccess = (event: MessageEvent) => {
+      console.log('event:', event.data);
+      
       if (event.data === 'login-success') {
         console.log(event.data);
         window.location.href = '/user'; // replace with your page URL
         window.removeEventListener('message', handleLoginSuccess); // Stop listening for message events
       } else {
         try {
-          userData = JSON.parse(event.data);
+          let userData = JSON.parse(event.data);
           // console.log('raw data:', event.data);
-          console.log("event data: " + JSON.stringify(userData));
+          console.log("post message data: " + JSON.stringify(userData));
           setData(userData);
-          console.log('User data:', data);
-
-          window.location.href = '/user'; // replace with your page URL
-          // IMPORTANT: Do not forget to remove the event listener AND TO SAVE THE USER DATA TO THE STATE
+          window.location.href = '/user';
           window.removeEventListener('message', handleLoginSuccess); // Stop listening for message events
         } catch (error) {
           // The message is not a JSON string. Ignore it.
@@ -70,7 +60,7 @@ function App() {
   };
 
   return (
-    <DataContext.Provider value={data}>
+    <DataContext.Provider value={{data, setData}}>
       <Router>
         <Routes>
           <Route path="/" element={

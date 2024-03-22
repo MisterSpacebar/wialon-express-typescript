@@ -1,7 +1,7 @@
 // User.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import Header from './Header';
-import DataContext from './contexts/DataContext';
+import { DataContext } from './App.tsx';
 
 type User = {
     session_id: string;
@@ -16,44 +16,52 @@ let templateUser: User = {
 };
 
 const UserComponent = () => {
+  let [user, setUser] = useState<User>(templateUser);
+  const { data, setData } = useContext(DataContext);
 
-  //const [user, setUser] = useState<User>(templateUser);
-  //const [requestSent, setRequestSent] = useState(false);
+    useEffect(() => {
+      
+        const fetchData = async () => {
+          try {
+            const response = await fetch('http://localhost:3000/user/session', { credentials: 'include' });
+            if (response.ok) {
+              const responseBody = await response.text();
+              console.log('Response body (String):', responseBody);
+              console.log('Response body (JSON):', JSON.parse(responseBody));
+              let ResBodyJson = JSON.parse(responseBody);
+              // force user template to be updated
+              let userData: User = {
+                session_id: ResBodyJson.user.session_id,
+                name: ResBodyJson.user.name,
+                user_id: ResBodyJson.user.user_id
+              };
+              // update user state
+              setUser(userData);
+              setData(userData);
+              console.log('setUser', user);
+            } else {
+              console.error('Fetching user data failed:', response);
+            }
+          } catch (error) {
+            console.log('Fetching user data failed:', error);
+          }
+        };
+        fetchData();
+      
+    }, []);
 
-  let UserData = React.useContext(DataContext);
-  console.log('UserData:', UserData);
+    console.log('User (State):', user);
+    console.log('User (Context):', data);
 
-    // useEffect(() => {
-    //   if(!requestSent){
-    //     const fetchData = async () => {
-    //       try {
-    //         const response = await fetch('http://localhost:3000/user/session');
-    //         if (response.ok) {
-    //           const responseBody = await response.text();
-    //           console.log('Response body:', response);
-  
-    //           // Now try to parse it as JSON
-    //           const data = JSON.parse(responseBody);
-    //           console.log('Fetched data:', data);
-    //           console.log('data(user):', UserData);
-    //           setRequestSent(true);
-    //         } else {
-    //           console.error('Fetching user data failed with status:', response.status);
-    //           console.log('Response:', response);
-    //         }
-    //       } catch (error) {
-    //         console.log('Fetching user data failed:', error);
-    //       }
-    //     };
-    //     fetchData();
-    //   }
-    // }, []);
+    if(!user.name) {
+      return <div> <Header /> <p>Loading...</p> </div>
+    }
 
     return (
       <div>
         <Header />
         <p>This is the User component.</p>
-        {UserData && <p>Welcome, {UserData.name}!</p>}
+        <p>Welcome, {user.name}</p>
       </div>
     );
   };

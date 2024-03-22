@@ -18,6 +18,8 @@ router.get('/session', (req, res) => {
         name: req.session.user.name,
         user_id: parseInt(req.session.user.user_id),
       };
+
+      console.log('User Object:', user);
   
       res.json({ user });
     } else {

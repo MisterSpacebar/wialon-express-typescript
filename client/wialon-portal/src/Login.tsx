@@ -1,7 +1,7 @@
 import { access } from 'fs';
-import React, { useState, useEffect } from 'react';
-import DataContext  from './contexts/DataContext';
-import { SetDataContext } from './contexts/SetDataContext';
+import React, { useState, useEffect, useContext } from 'react';
+//import DataContext  from './contexts/DataContext';
+import { DataContext } from './App.tsx';
 
 type User = {
     session_id: string;
@@ -19,11 +19,8 @@ const Login = () => {
     
     const [loginStatus, setLoginStatus] = useState('');
     const [requestSent, setRequestSent] = useState(false);
-    const [data, setData] = useState<User>(defaultUser);
-
-    let StateData = React.useContext(DataContext);
-    const newData = React.useContext(SetDataContext);
-    console.log('StateData:', StateData);
+    // const newData = React.useContext(SetDataContext);
+    const { data, setData} = useContext(DataContext);
 
     useEffect(() => {
         if(!requestSent) {
@@ -45,29 +42,20 @@ const Login = () => {
                     body: JSON.stringify({ accessToken })
                 })
                 .then(response => response.text())
-                .then(data => {
+                .then(responseData => {
                     // Handle the response from your server
-                    console.log("server response: ",data);
-                    let user = JSON.parse(data);
+                    console.log("server response: ",responseData);
+                    let user = JSON.parse(responseData);
                     console.log('User data:', user);
                     if (user && 'session_id' in user && 'name' in user && 'user_id' in user) {
-                        let loggedUser = {
-                            session_id: user.session_id,
-                            name: user.name,
-                            user_id: user.user_id
+                        if (setData) {
+                            setData(user);
                         }
-                        setData(loggedUser);
-                        newData?.(loggedUser);
                     } else {
                         console.error('Unexpected user data:', user);
                     }
                     setRequestSent(true);
-                    window.opener.postMessage('login-success', '*');
-                    window.opener.postMessage(JSON.stringify(user) , '*');
                     // If the login was successful, close the window after 5 seconds
-                    setTimeout(() => {
-                        window.close();
-                    }, 23000);
                 });
             } else {
                 setLoginStatus('failure');
@@ -76,6 +64,15 @@ const Login = () => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log('Data (stored):', data);
+        window.opener.postMessage('login-success', '*');
+        window.opener.postMessage(JSON.stringify(data) , '*');
+        setTimeout(() => {
+            window.close();
+        }, 623000);
+    }, [data]);
+
     let message;
     if (loginStatus === 'success') {
     message = <div>Login successful! You will be redirected in 5 seconds.</div>;
@@ -83,15 +80,17 @@ const Login = () => {
     message = <div>Login failed!</div>;
     }
 
-
     return (
-        <DataContext.Provider value={data}>
-            <SetDataContext.Provider value={setData}>
-                <div>
-                    {message}
-                </div>
-            </SetDataContext.Provider>
-        </DataContext.Provider>
+        // <DataContext.Provider value={data}>
+        //     <SetDataContext.Provider value={setData}>
+        //         <div>
+        //             {message}
+        //         </div>
+        //     </SetDataContext.Provider>
+        // </DataContext.Provider>
+        <div>
+            {message}
+        </div>
     );
 }
 

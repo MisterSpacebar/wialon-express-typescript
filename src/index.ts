@@ -26,7 +26,7 @@ const sessionOptions: session.SessionOptions = {
   secret: 'your-secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: 'auto', maxAge: 30000 }
+  cookie: { secure: 'auto', maxAge: 300000 }
 };
 
 app.use(session(sessionOptions));

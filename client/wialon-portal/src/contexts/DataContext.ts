@@ -14,6 +14,6 @@ const defaultUser: User = {
 };
 
 
-const DataContext = React.createContext<User | null>(defaultUser);
+const DataContext = React.createContext<{ data: User | null, setData: React.Dispatch<any> }>({ data: defaultUser, setData: () => {} });;
 
 export default DataContext;

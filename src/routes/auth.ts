@@ -16,7 +16,7 @@ router.post('/token-login', async (req, res) => {
 
         if (user) {
             console.log('Authentication successful');
-            console.log(user);
+            //console.log(user);
             // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
             req.session.user = {
                 // unique session id per login
@@ -33,8 +33,8 @@ router.post('/token-login', async (req, res) => {
                     res.send(req.session.user);
                 }
             })
-            console.log('session object');
-            console.log(req.session.user);
+            //console.log('session object');
+            //console.log(req.session.user);
         } else {
             res.status(401).send('Authentication failed');
         }
