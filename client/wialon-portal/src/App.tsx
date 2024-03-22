@@ -4,8 +4,8 @@ import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-route
 // import viteLogo from '/vite.svg'
 // import './App.css'
 
-import User from './User';
-import Login from './Login';
+import User from './components/User';
+import Login from './components/Login';
 
 type User = {
   session_id: string;

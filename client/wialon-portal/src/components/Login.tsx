@@ -1,7 +1,7 @@
 import { access } from 'fs';
 import React, { useState, useEffect, useContext } from 'react';
 //import DataContext  from './contexts/DataContext';
-import { DataContext } from './App.tsx';
+import { DataContext } from '../App.tsx';
 
 type User = {
     session_id: string;
@@ -15,8 +15,10 @@ let defaultUser: User = {
     user_id: 0
 };
 
+let fetchCount: number = 1;
+
 const Login = () => {
-    
+    console.log('login component mounted');
     const [loginStatus, setLoginStatus] = useState('');
     const [requestSent, setRequestSent] = useState(false);
     // const newData = React.useContext(SetDataContext);
@@ -47,6 +49,8 @@ const Login = () => {
                     console.log("server response: ",responseData);
                     let user = JSON.parse(responseData);
                     console.log('User data:', user);
+                    console.log('fetchCount:', fetchCount);
+                    fetchCount++;
                     if (user && 'session_id' in user && 'name' in user && 'user_id' in user) {
                         if (setData) {
                             setData(user);
@@ -70,7 +74,7 @@ const Login = () => {
         window.opener.postMessage(JSON.stringify(data) , '*');
         setTimeout(() => {
             window.close();
-        }, 623000);
+        }, 903000);
     }, [data]);
 
     let message;

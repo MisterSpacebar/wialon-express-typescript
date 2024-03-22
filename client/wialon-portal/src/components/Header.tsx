@@ -1,10 +1,11 @@
 // Header.tsx
-import React from 'react';
+import React, { useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DataContext } from '../App.tsx';
 
 const Header = () => {
     const navigate = useNavigate();
-
+    const { data, setData } = useContext(DataContext);
     const handleLogout = async () => {
         try {
           const response = await fetch('/logout', {
@@ -29,7 +30,7 @@ const Header = () => {
 
   return (
     <header style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', background: '#f5f5f5' }}>
-      <h1>Welcome to the User Page</h1>
+      <h1>Welcome, {data ? data.name : 'Loading...'}</h1>
       <button onClick={handleLogout}>Logout</button>
     </header>
   );

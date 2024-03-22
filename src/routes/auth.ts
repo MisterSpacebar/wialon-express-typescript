@@ -6,6 +6,8 @@ import authService from '../services/authService';
 
 const router = express.Router();
 
+let fetchCount: number = 1;
+
 router.post('/token-login', async (req, res) => {
     console.log(req.body.accessToken);
     console.log('token-login route');
@@ -29,8 +31,10 @@ router.post('/token-login', async (req, res) => {
                     console.log(err);
                 } else {
                     console.log('Session saved');
-                    console.log(req.session.user);
+                    console.log("post-save: ",req.session.user);
                     res.send(req.session.user);
+                    console.log('fetch count (auth): ', fetchCount);
+                    fetchCount++;
                 }
             })
             //console.log('session object');

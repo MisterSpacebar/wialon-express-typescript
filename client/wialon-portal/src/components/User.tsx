@@ -1,7 +1,9 @@
 // User.tsx
 import React, { useEffect, useContext, useState } from 'react';
-import Header from './Header';
-import { DataContext } from './App.tsx';
+import Header from './Header.tsx';
+import { DataContext } from '../App.tsx';
+
+import Units from './Units.tsx';
 
 type User = {
     session_id: string;
@@ -50,6 +52,8 @@ const UserComponent = () => {
       
     }, []);
 
+
+
     console.log('User (State):', user);
     console.log('User (Context):', data);
 
@@ -60,8 +64,7 @@ const UserComponent = () => {
     return (
       <div>
         <Header />
-        <p>This is the User component.</p>
-        <p>Welcome, {user.name}</p>
+        <Units />
       </div>
     );
   };
