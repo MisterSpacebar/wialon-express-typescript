@@ -61,7 +61,7 @@ const Units = () => {
                 <td>{item.hw}</td>
                 {/* Add more cells as needed */}
                 <div>
-                  <a className="pure-button button-secondary" href="#">Apply Template</a>
+                  <a className="pure-button button-secondary" href="#">Apply</a>
                 </div>
               </tr>
             ))}

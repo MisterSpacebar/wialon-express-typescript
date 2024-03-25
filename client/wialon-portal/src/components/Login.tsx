@@ -74,7 +74,7 @@ const Login = () => {
         window.opener.postMessage(JSON.stringify(data) , '*');
         setTimeout(() => {
             window.close();
-        }, 903000);
+        }, 3000);
     }, [data]);
 
     let message;
