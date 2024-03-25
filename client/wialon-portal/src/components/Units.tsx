@@ -57,6 +57,9 @@ const Units = () => {
                 <td>{item.cls}</td>
                 <td>{item.id}</td>
                 {/* Add more cells as needed */}
+                <div>
+                <a className="pure-button" href="#">Test Button</a>
+                </div>
               </tr>
             ))}
           </tbody>
