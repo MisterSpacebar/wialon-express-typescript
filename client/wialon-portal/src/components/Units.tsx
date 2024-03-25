@@ -5,7 +5,8 @@ import { DataContext } from '../App.tsx';
 interface UnitsData {
     nm: string; // Name
     cls: number; // Class
-    id: number; // ID
+    id: number; // Unit ID
+    hw: number; // Hardware ID
     // Add more properties as needed
   }
 
@@ -46,6 +47,7 @@ const Units = () => {
               <th>Name</th>
               <th>Class</th>
               <th>ID</th>
+              <th>Hardware ID</th>
               {/* Add more headers as needed */}
             </tr>
           </thead>
@@ -56,9 +58,10 @@ const Units = () => {
                 <td>{item.nm}</td>
                 <td>{item.cls}</td>
                 <td>{item.id}</td>
+                <td>{item.hw}</td>
                 {/* Add more cells as needed */}
                 <div>
-                <a className="pure-button" href="#">Test Button</a>
+                  <a className="pure-button button-secondary" href="#">Apply Template</a>
                 </div>
               </tr>
             ))}
