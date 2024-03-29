@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react'
+import React, { useMemo, useState, useEffect, createContext } from 'react'
 import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-router-dom';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -59,8 +59,10 @@ function App() {
     window.open('https://hosting.wialon.us/login.html?access_type=-1&activation_time=0&duration=0&lang=en&flags=0&response_type=token&redirect_uri=http://localhost:5173/redirect','Login', `width=${width},height=${height},left=${left},top=${top}`);
   };
 
+  const value = useMemo(() => ({ data, setData }), [data, setData]);
+
   return (
-    <DataContext.Provider value={{data, setData}}>
+    <DataContext.Provider value={value}>
       <Router>
         <Routes>
           <Route path="/" element={
