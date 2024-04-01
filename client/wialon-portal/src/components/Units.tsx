@@ -9,6 +9,7 @@ interface UnitsData {
     hw: number; // Hardware ID
     // Add more properties as needed
   }
+let loadedUnits = [];
 
 const Units = () => {
     console.log('Units component mounted');
@@ -26,6 +27,7 @@ const Units = () => {
                 console.log('Unit data:', unitData);
                 setTotalUnits(unitData.totalItemsCount);
                 setUnits(unitData.items);
+                loadedUnits.push(unitData.items)
             })
             .catch(unitData => {
                 // Handle the error
