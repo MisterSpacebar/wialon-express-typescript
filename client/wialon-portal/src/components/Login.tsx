@@ -1,7 +1,7 @@
 import { access } from 'fs';
 import React, { useState, useEffect, useContext } from 'react';
 //import DataContext  from './contexts/DataContext';
-import { DataContext } from '../App.tsx';
+import { server, DataContext } from '../App.tsx';
 
 type User = {
     session_id: string;
@@ -34,7 +34,7 @@ const Login = () => {
                 setLoginStatus('success');
                 console.log(accessToken);
                 // Send the token to your server
-                fetch('http://localhost:3000/auth/token-login', {
+                fetch(server.port+'/auth/token-login', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {

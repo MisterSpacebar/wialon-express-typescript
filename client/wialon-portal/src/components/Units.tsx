@@ -1,6 +1,6 @@
 // Units.tsx
 import React, { useState, useEffect, useContext } from 'react';
-import { DataContext } from '../App.tsx';
+import { server, DataContext } from '../App.tsx';
 
 interface UnitsData {
     nm: string; // Name
@@ -20,7 +20,7 @@ const Units = () => {
     useEffect(() => {
         console.log('user data (context):', data);
         if(data){
-            fetch("http://localhost:3000/units/all-units/"+data.session_id)
+            fetch(server.port+"/units/all-units/"+data.session_id)
             .then(response => response.json())
             .then(unitData => {
                 // Handle the data

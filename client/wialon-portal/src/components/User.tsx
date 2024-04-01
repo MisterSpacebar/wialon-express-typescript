@@ -1,7 +1,7 @@
 // User.tsx
 import React, { useEffect, useContext, useState } from 'react';
 import Header from './Header.tsx';
-import { DataContext } from '../App.tsx';
+import { server, DataContext } from '../App.tsx';
 
 import Units from './Units.tsx';
 
@@ -25,7 +25,7 @@ const UserComponent = () => {
       
         const fetchData = async () => {
           try {
-            const response = await fetch('http://localhost:3000/user/session', { credentials: 'include' });
+            const response = await fetch(server.port+'user/session', { credentials: 'include' });
             if (response.ok) {
               const responseBody = await response.text();
               console.log('Response body (String):', responseBody);

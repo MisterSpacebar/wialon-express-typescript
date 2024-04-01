@@ -13,6 +13,7 @@ type User = {
   user_id: number;
 };
 
+export const server = {port: 'http://localhost:3000'};
 export const DataContext = createContext<{ data: User | null, setData: React.Dispatch<React.SetStateAction<User | null>> }>({ data: null, setData: () => {} });
 
 function App() {
