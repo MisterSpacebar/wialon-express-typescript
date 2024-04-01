@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <header style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', background: '#f5f5f5' }}>
       <h1>Welcome, {data ? data.name : 'Loading...'}</h1>
-      <button onClick={handleLogout}>Logout</button>
+      <button type="button" className="btn btn-primary btn-danger btn-lg" onClick={handleLogout}>Logout</button>
     </header>
   );
 };

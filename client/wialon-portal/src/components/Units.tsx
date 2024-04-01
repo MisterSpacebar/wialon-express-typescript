@@ -41,35 +41,39 @@ const Units = () => {
 
     return (
         <div>
-        <h1>Units</h1>
-        <p>Total Units: {totalUnits}</p>
-        <table className='pure-table'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Class</th>
-              <th>ID</th>
-              <th>Hardware ID</th>
-              {/* Add more headers as needed */}
-            </tr>
-          </thead>
-          <tbody>
-            {units && units.map((item, index) => (
-              <tr key={index}>
-                <td>{index}</td>
-                <td>{item.nm}</td>
-                <td>{item.cls}</td>
-                <td>{item.id}</td>
-                <td>{item.hw}</td>
-                {/* Add more cells as needed */}
-                <div>
-                  <a className="pure-button button-secondary" href="#">Apply</a>
-                </div>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+         <div className='unit-page-header '>
+         <h1>Units</h1>
+          <p>Total Templates: {totalUnits}</p>
+         </div>
+          <div className='container'>
+            <table className='table table-striped'>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>ID</th>
+                  <th>Hardware ID</th>
+                  {/* Add more headers as needed */}
+                </tr>
+              </thead>
+              <tbody>
+                {units && units.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{item.nm}</td>
+                    <td>{item.cls}</td>
+                    <td>{item.id}</td>
+                    <td>{item.hw}</td>
+                    {/* Add more cells as needed */}
+                    <div>
+                      <a className="btn btn-outline-secondary" href="#">Apply</a>
+                    </div>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
       </div>
     );
 };

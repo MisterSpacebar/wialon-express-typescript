@@ -25,7 +25,7 @@ const UserComponent = () => {
       
         const fetchData = async () => {
           try {
-            const response = await fetch(server.port+'user/session', { credentials: 'include' });
+            const response = await fetch(server.port+'/user/session', { credentials: 'include' });
             if (response.ok) {
               const responseBody = await response.text();
               console.log('Response body (String):', responseBody);

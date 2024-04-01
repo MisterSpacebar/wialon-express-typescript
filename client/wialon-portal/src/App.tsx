@@ -77,11 +77,11 @@ function App() {
                 </a>
               </div> */}
               <h1>Wialon Portal</h1>
-              <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
+              <div className="jumbotron jumbotron-fluid">
+                <button type="button" className="btn btn-info" onClick={() => setCount((count) => count + 1)}>
                   count is {count}
                 </button>
-                <button onClick={handleLogin}>
+                <button type="button" className="btn btn-info" onClick={handleLogin}>
                   Login
                 </button>
                 <p>

@@ -1,7 +1,7 @@
 // src/services/allUnitsService.ts
 
 async function getAllUnits(session_id: string) {
-    const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/search_items&params={"spec":{"itemsType":"avl_unit","propName":"sys_name","propValueMask":"template","sortType":"sys_name"},"force":1,"flags":4611686018427387903,"from":0,"to":4294967295}&sid=${session_id}`;
+    const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/search_items&params={"spec":{"itemsType":"avl_unit","propName":"sys_name","propValueMask":"template*","sortType":"sys_name"},"force":1,"flags":4611686018427387903,"from":0,"to":4294967295}&sid=${session_id}`;
     // Make a request to the URL
     const response = await fetch(url);
 
