@@ -27,7 +27,7 @@ const Units = () => {
                 console.log('Unit data:', unitData);
                 setTotalUnits(unitData.totalItemsCount);
                 setUnits(unitData.items);
-                loadedUnits.push(unitData.items)
+                loadedUnits = unitData.items;
             })
             .catch(unitData => {
                 // Handle the error
