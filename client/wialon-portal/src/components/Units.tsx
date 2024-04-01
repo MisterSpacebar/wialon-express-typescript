@@ -1,7 +1,7 @@
 // Units.tsx
 import React, { useState, useEffect, useContext } from 'react';
 import { server, DataContext } from '../App.tsx';
-import unitModal from './unitDataModal.tsx';
+import UnitModal from './unitDataModal.tsx';
 
 interface UnitsData {
     nm: string; // Name
@@ -66,14 +66,17 @@ const Units = () => {
                     <td>{item.id}</td>
                     <td>{item.hw}</td>
                     {/* Add more cells as needed */}
-                    <div>
-                      <a className="btn btn-outline-secondary" href="#">Apply</a>
-                    </div>
+                    <td>
+                      <div>
+                        <a className="btn btn-outline-secondary" data-toggle="modal" data-target="#unit-model" href="#">Apply</a>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <UnitModal />
       </div>
     );
 };
