@@ -1,22 +1,35 @@
 // Units.tsx
 import React, { useState, useEffect, useContext } from 'react';
 import { server, DataContext } from '../App.tsx';
-import UnitModal from './unitDataModal.tsx';
+import UnitModal from './unitModal.tsx';
+
+import { Modal, Button } from 'react-bootstrap';
+import '../styles/pageHeader.css';
+import '../styles/unitTable.css';
 
 interface UnitsData {
-    nm: string; // Name
-    cls: number; // Class
-    id: number; // Unit ID
-    hw: number; // Hardware ID
-    // Add more properties as needed
-  }
+  nm: string; // Name
+  cls: number; // Class
+  id: number; // Unit ID
+  hw: number; // Hardware ID
+  // Add more properties as needed
+}
+
 let loadedUnits = [];
 
 const Units = () => {
     console.log('Units component mounted');
+    // state to store the units data
     const { data } = useContext(DataContext);
     const [units, setUnits] = useState<UnitsData[] | null>(null);
     const [totalUnits, setTotalUnits] = useState<number>(0);
+    // state for modal
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedUnit, setSelectedUnit] = useState<UnitsData | null>(null);
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         console.log('user data (context):', data);
@@ -41,12 +54,12 @@ const Units = () => {
 
     return (
         <div>
-         <div className='unit-page-header '>
-         <h1>Units</h1>
+         <div className='page-header '>
+          <h1>Units</h1>
           <p>Total Templates: {totalUnits}</p>
          </div>
           <div className='container'>
-            <table className='table table-striped'>
+            <table className='table table-striped unit-table'>
               <thead>
                 <tr>
                   <th>#</th>
@@ -59,7 +72,7 @@ const Units = () => {
               </thead>
               <tbody>
                 {units?.map((item, index) => (
-                  <tr key={index}>
+                  <tr className='unit' key={index}>
                     <td>{index}</td>
                     <td>{item.nm}</td>
                     <td>{item.cls}</td>
@@ -67,20 +80,16 @@ const Units = () => {
                     <td>{item.hw}</td>
                     {/* Add more cells as needed */}
                     <td>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        data-toggle="modal"
-                        data-target="#unit-model">
-                          Apply
-                      </button>
+                      <Button variant="outline-success btn-sm" onClick={() => setModalShow(true)}>
+                        Apply
+                      </Button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <UnitModal />
+          <UnitModal show={modalShow} onHide={() => setModalShow(false)} unit={selectedUnit} />
       </div>
     );
 };

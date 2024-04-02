@@ -1,7 +1,9 @@
 import React, { useMemo, useState, useEffect, createContext } from 'react'
 import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Jumbotron } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+
+import './styles/titleCard.css';
 
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -70,23 +72,24 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={
-            <>
-            <h1>Wialon Portal</h1>
-            <Jumbotron fluid>
-              <Button variant="info" onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-              </Button>
-              <Button variant="info" onClick={handleLogin}>
-                Login
-              </Button>
-              <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-              </p>
-            </Jumbotron>
-            <p className="read-the-docs">
-              Click on the Vite and React logos to learn more
-            </p>
-            </>
+            <div className="jumbotron jumbotron-fluid">
+              <Card className='main-page title-card'>
+                <Card.Body>
+                  <Card.Title className='title'>Wialon Portal</Card.Title>
+                  <Card.Text>
+                    <div className='login-buttons'>
+                      <Button className='login-button' variant="info" onClick={() => setCount((count) => count + 1)}>
+                        count is {count} (state test)
+                      </Button>
+                      <Button className='login-button' variant="info" onClick={handleLogin}>
+                        Login
+                      </Button>
+                    </div>
+                  </Card.Text>
+                  <Button variant="primary">Go somewhere</Button>
+                </Card.Body>
+              </Card>
+            </div>
           } />
           <Route path="/redirect" element={<Login />} />
           <Route path="/user" element={<User />} />
