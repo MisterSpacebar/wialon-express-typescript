@@ -7,12 +7,14 @@ router.post('/unit-upload', (req, res) => {
   const { sessionId, names, imei, unitData } = req.body;
   // Assuming you have a service called "uploadService" that handles the upload to the API
   let processedDataArray: any[] = [];
-  let sens = unitData.sens;
-  let hw_id = unitData.hw;
+  const sensors = unitData.sens;
+  const hw_id = unitData.hw;
+  const user_id = unitData.crt;
 
-  names.forEach((name: string, index: number) => {
-    
-  });
+  let registerUnits = {
+    names: names,
+    user_id: user_id
+  }
 
   //uploadService.uploadData(processedDataArray, sessionId);
   
