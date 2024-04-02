@@ -1,5 +1,8 @@
 import React, { useMemo, useState, useEffect, createContext } from 'react'
 import { Routes, useNavigate, BrowserRouter as Router, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Jumbotron } from 'react-bootstrap';
+
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './App.css'
@@ -68,29 +71,21 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              {/* <div>
-                <a href="https://vitejs.dev" target="_blank">
-                  <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                  <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-              </div> */}
-              <h1>Wialon Portal</h1>
-              <div className="jumbotron jumbotron-fluid">
-                <button type="button" className="btn btn-info" onClick={() => setCount((count) => count + 1)}>
-                  count is {count}
-                </button>
-                <button type="button" className="btn btn-info" onClick={handleLogin}>
-                  Login
-                </button>
-                <p>
-                  Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-              </div>
-              <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
+            <h1>Wialon Portal</h1>
+            <Jumbotron fluid>
+              <Button variant="info" onClick={() => setCount((count) => count + 1)}>
+                count is {count}
+              </Button>
+              <Button variant="info" onClick={handleLogin}>
+                Login
+              </Button>
+              <p>
+                Edit <code>src/App.tsx</code> and save to test HMR
               </p>
+            </Jumbotron>
+            <p className="read-the-docs">
+              Click on the Vite and React logos to learn more
+            </p>
             </>
           } />
           <Route path="/redirect" element={<Login />} />

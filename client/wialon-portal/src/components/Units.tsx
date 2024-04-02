@@ -58,7 +58,7 @@ const Units = () => {
                 </tr>
               </thead>
               <tbody>
-                {units && units.map((item, index) => (
+                {units?.map((item, index) => (
                   <tr key={index}>
                     <td>{index}</td>
                     <td>{item.nm}</td>
@@ -67,9 +67,13 @@ const Units = () => {
                     <td>{item.hw}</td>
                     {/* Add more cells as needed */}
                     <td>
-                      <div>
-                        <a className="btn btn-outline-secondary" data-toggle="modal" data-target="#unit-model" href="#">Apply</a>
-                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                        data-toggle="modal"
+                        data-target="#unit-model">
+                          Apply
+                      </button>
                     </td>
                   </tr>
                 ))}
