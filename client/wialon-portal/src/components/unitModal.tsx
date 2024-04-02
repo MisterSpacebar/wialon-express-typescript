@@ -44,7 +44,34 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
     console.log('Name:', nameArray);
     console.log('IMEI:', imeiArray);
 
-    await fetch(server.port+'/unit-upload', {})
+    // set up the return object
+    let unitData = {
+      session_id: session_id,
+      names: nameArray,
+      imeis: imeiArray,
+      unit_properties: unit
+    };
+
+    try {
+      const response = await fetch(server.port+'/unit-upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(unitData)
+      });
+
+      if (response.ok) {
+        console.log('Data sent successfully');
+        // Handle success case here
+      } else {
+        console.log('Failed to send data');
+        // Handle failure case here
+      }
+    } catch (error) {
+      console.log('Error:', error);
+      // Handle error case here
+    }
   };
 
   return (
