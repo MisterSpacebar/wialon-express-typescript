@@ -10,6 +10,7 @@ import authRouter from './routes/auth';
 import { logoutRoute } from './routes/logout';
 import userSessionRouter from './routes/userSession';
 import unitRouter from './routes/allUnits';
+import uploadRouter from './routes/register';
 
 const app: Application = express();
 const portExpress: number = 3000;
@@ -40,6 +41,8 @@ app.get('/logout', logoutRoute);
 app.use('/user', userSessionRouter);
 // Set up the units route
 app.use('/units', unitRouter);
+// Set up the upload route
+app.use('/unit-upload', uploadRouter);
 
 // Proxy requests to the Vite development server during development
 if (process.env.NODE_ENV === 'development') {

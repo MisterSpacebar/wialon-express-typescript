@@ -80,7 +80,12 @@ const Units = () => {
                     <td>{item.hw}</td>
                     {/* Add more cells as needed */}
                     <td>
-                      <Button variant="outline-success btn-sm" onClick={() => setModalShow(true)}>
+                      <Button
+                        variant="outline-primary btn-sm"
+                        onClick={() => {
+                          setSelectedUnit(item);
+                          setModalShow(true);
+                        }}>
                         Apply
                       </Button>
                     </td>
@@ -89,7 +94,7 @@ const Units = () => {
               </tbody>
             </table>
           </div>
-          <UnitModal show={modalShow} onHide={() => setModalShow(false)} unit={selectedUnit} />
+          <UnitModal show={modalShow} onHide={() => setModalShow(false)} unit={selectedUnit} session_id={data?.session_id || ''} />
       </div>
     );
 };

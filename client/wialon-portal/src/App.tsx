@@ -18,7 +18,7 @@ type User = {
   user_id: number;
 };
 
-export const server = {port: 'http://localhost:3000'};
+export const server = { port: 'http://localhost:3000' };
 export const DataContext = createContext<{ data: User | null, setData: React.Dispatch<React.SetStateAction<User | null>> }>({ data: null, setData: () => {} });
 
 function App() {
@@ -72,21 +72,20 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={
-            <div className="jumbotron jumbotron-fluid">
-              <Card className='main-page title-card'>
+            <div className="jumbotron jumbotron-fluid main-jumbo">
+              <Card className='main-page title-card band-card'>
                 <Card.Body>
-                  <Card.Title className='title'>Wialon Portal</Card.Title>
+                  <Card.Title className='title'>
+                    <h1>Wialon Portal</h1>
+                    </Card.Title>
+                  <br></br>
                   <Card.Text>
                     <div className='login-buttons'>
-                      <Button className='login-button' variant="info" onClick={() => setCount((count) => count + 1)}>
-                        count is {count} (state test)
-                      </Button>
                       <Button className='login-button' variant="info" onClick={handleLogin}>
                         Login
                       </Button>
                     </div>
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
               </Card>
             </div>

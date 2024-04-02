@@ -7,6 +7,11 @@
     background-color: #f2f2f2;
 }
 
+.band-card {
+    width: 100%; /* Make the card take up the full width of its container */
+    margin: auto; /* Center the card horizontally */
+  }
+
 .title {
     font-size: 24px;
     font-weight: bold;
@@ -26,8 +31,16 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .login-button:hover {
     background-color: #0056b3;
+}
+
+.main-jumbo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
 }
