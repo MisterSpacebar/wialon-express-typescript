@@ -13,6 +13,7 @@ router.post('/unit-upload', async (req, res) => {
   const hw_id = unitData.hw;
   const user_id = unitData.crt;
 
+  //registration data to be sent to service
   let registerUnits = {
     names: names,
     user_id: user_id,
@@ -23,13 +24,17 @@ router.post('/unit-upload', async (req, res) => {
   try {
     const unitResponse = await uploadService(registerUnits, sessionId);
     console.log('Unit response:', unitResponse);
-    unitIDs = unitResponse.map((unit: any) => unit.item.id);
+    // capture unit ids
+    unitIDs = unitResponse.map((unit: any) => {unit.item.id});
   } catch (error) {
     console.error('Failed to upload data:', error);
   }
   
-  // Process the received data here
-  
+  // Process the received data here to update blank units with template properties
+  unitIDs.forEach((id: any, index: number) => {
+
+  });
+
   res.sendStatus(200);
 });
 

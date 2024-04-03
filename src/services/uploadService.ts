@@ -4,7 +4,7 @@ const uploadData = async (data: any, sessionId: any) => {
 
     const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/batch&sid=${sessionId}`;
 
-    // set up parameter array for the request
+    // set up array of obects in format dictated by API
     let params = data.names.map((name: any) => {
         return {
             "svc": "core/create_unit",
