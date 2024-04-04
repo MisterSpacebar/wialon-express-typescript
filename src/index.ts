@@ -42,7 +42,7 @@ app.use('/user', userSessionRouter);
 // Set up the units route
 app.use('/units', unitRouter);
 // Set up the upload route
-app.use('/unit-upload', uploadRouter);
+app.use('/upload', uploadRouter);
 
 // Proxy requests to the Vite development server during development
 if (process.env.NODE_ENV === 'development') {

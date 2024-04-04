@@ -53,7 +53,10 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
     };
 
     try {
-      const response = await fetch(server.port+'/unit-upload', {
+      console.log('Server:', server.port+'/upload/units');
+      console.log('Data:', JSON.stringify(unitData));
+
+      const response = await fetch(server.port+'/upload/units', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
