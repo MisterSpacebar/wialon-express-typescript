@@ -31,7 +31,74 @@ router.post('/unit-upload', async (req, res) => {
   }
   
   // Process the received data here to update blank units with template properties
-  unitIDs.forEach((id: any, index: number) => {
+  unitIDs.forEach((item_id: any, index: number) => {
+
+    const sensorData = Object.entries(sensors).map(([key, value]: [string, any], index) => {
+      const svc_value = "unit/update_sensor";
+      const new_param = {
+        "itemId":item_id,
+        "id":value.id,
+        "callMode":"create",
+        "unlink":1,
+        "n":value.n,
+        "t":value.t,
+        "d":value.d,
+        "m":value.m,
+        "p":value.p,
+        "f":value.f,
+        "c":value.c,
+        "vt":value.vt,
+        "vs":value.vs,
+        "tbl":value.tbl,
+        "ct":value.ct,
+        "mt":value.mt
+      };
+      processedDataArray.push({"svc":svc_value,params:new_param});
+    });
+
+    let updateTrip = {
+      "svc": "unit/update_report_settings",
+      "params": {
+        "itemId":item_id,
+        "type":unitData.rtd.type,
+        "gpsCorrection":unitData.rtd.gpsCorrection,
+        "minSat":unitData.rtd.minSat,
+        "minMovingSpeed":unitData.rtd.minMovingSpeed,
+        "minStayTime": unitData.rtd.minStayTime,
+        "maxMessagesDistance":unitData.rtd.maxMessagesDistance,
+        "minTripTime":unitData.rtd.minTripTime,
+        "minTripDistance":unitData.rtd.minTripDistance
+      }
+    }
+    processedDataArray.push(updateTrip);
+
+    let speedData = {
+      "svc": "unit/update_report_settings",
+      "params": {
+        "itemId":item_id,
+        "params":{
+          "speedLimit": 0,
+          "maxMessagesInterval": 0,
+          "dailyEngineHoursRate": 0,
+          "urbanMaxSpeed": 60,
+          "mileageCoefficient": 1,
+          "fuelRateCoefficient": 0,
+          "speedingTolerance": 5,
+          "speedingMinDuration": 10,
+          "speedingMode": 1
+        }
+      }
+    }
+    processedDataArray.push(speedData);
+
+    let unique_id = {
+      "svc": "unit/update_unique_id",
+      "params": {
+        "itemId":item_id,
+        "uniqueId":imei[index]
+      }
+    }
+    processedDataArray.push(unique_id);
 
   });
 
