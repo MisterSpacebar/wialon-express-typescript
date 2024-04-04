@@ -95,6 +95,7 @@ router.post('/unit-upload', async (req, res) => {
       "svc": "unit/update_unique_id",
       "params": {
         "itemId":item_id,
+        "deviceTypeId":hw_id,
         "uniqueId":imei[index]
       }
     }
