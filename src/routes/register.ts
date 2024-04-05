@@ -1,19 +1,38 @@
 import express from 'express';
 import uploadService from '../services/uploadService';
 import updateService from '../services/updateService';
+import { parse } from 'path';
+import fs from 'fs';
 
 const router = express.Router();
 
 router.post('/units', async (req, res) => {
-  const { sessionId, names, imei, unitData } = req.body;
-  console.log('Session ID:', sessionId);
-  console.log(unitData)
+  // const { sessionId, names, imei, unitData } = req.body;
+  let sessionId = req.body.session_id;
+  let names = req.body.names;
+  let imei = req.body.imeis;
+  let unit_properties = req.body.unit_properties;
+
+  if (!unit_properties || !sessionId || !names || !imei) {
+    console.log('(express/routes/register) Session ID:', sessionId);
+    console.log('(express/routes/register) Names:', names);
+    console.log('(express/routes/register) IMEIs:', imei);
+    //console.log('(express/routes/register) unit data:', unitData);
+    return res.status(400).json({ error: 'unitData is required' });
+  }
+  console.log('(express/routes/register) Session ID:', sessionId);
+  console.log('(express/routes/register) Names:', names);
+  console.log('(express/routes/register) IMEIs:', imei);
+  //console.log('(express/routes/register) unit data:', unitData);
+
+  //console.log('(express/routes/register) Session ID:', sessionId);
+  fs.writeFileSync('loadedUnitData.txt', JSON.stringify(unit_properties));
   // Assuming you have a service called "uploadService" that handles the upload to the API
   let processedDataArray: any[] = [];
   let unitIDs: any[] = [];
-  const sensors = unitData.sens;
-  const hw_id = unitData.hw;
-  const user_id = unitData.crt;
+  const sensors = unit_properties.sens;
+  const hw_id = unit_properties.hw;
+  const user_id = unit_properties.crt;
 
   //registration data to be sent to service
   let registerUnits = {
@@ -22,14 +41,22 @@ router.post('/units', async (req, res) => {
     hw_id: hw_id
   }
 
-  console.log('Unit data:', unitData);
+  // console.log('(express/routes/register) Unit data:', unitData);
 
   //uploadService.uploadData(processedDataArray, sessionId);
   try {
     const unitResponse = await uploadService(registerUnits, sessionId);
-    console.log('Unit response:', unitResponse);
+    //console.log('(express/routes/register) Unit response:', unitResponse);
+    fs.writeFileSync('uploadResponse.txt', JSON.stringify(unitResponse));
     // capture unit ids
-    unitIDs = unitResponse.map((unit: any) => {unit.item.id});
+    //unitIDs = unitResponse.map((unit: any) => {unit.item.id});
+    let unitData = unitResponse;
+    unitData.forEach((unit: any) => {
+      unitIDs.push(unit.item.id);
+    });
+    fs.writeFileSync('unitIdArray.txt', JSON.stringify(unitData));
+    console.log('(express/routes/register) Unit IDs:', unitIDs);
+    fs.writeFileSync('unitIDs.txt', JSON.stringify(unitIDs));
 
     // Process the received data here to update blank units with template properties
     unitIDs.forEach((item_id: any, index: number) => {
@@ -37,8 +64,8 @@ router.post('/units', async (req, res) => {
       const sensorData = Object.entries(sensors).map(([key, value]: [string, any], index) => {
         const svc_value = "unit/update_sensor";
         const new_param = {
-          "itemId":item_id,
-          "id":value.id,
+          "itemId":parseInt(item_id),
+          "id":parseInt(value.id),
           "callMode":"create",
           "unlink":1,
           "n":value.n,
@@ -58,17 +85,17 @@ router.post('/units', async (req, res) => {
       });
 
       let updateTrip = {
-        "svc": "unit/update_report_settings",
+        "svc": "unit/update_trip_detector",
         "params": {
-          "itemId":item_id,
-          "type":unitData.rtd.type,
-          "gpsCorrection":unitData.rtd.gpsCorrection,
-          "minSat":unitData.rtd.minSat,
-          "minMovingSpeed":unitData.rtd.minMovingSpeed,
-          "minStayTime": unitData.rtd.minStayTime,
-          "maxMessagesDistance":unitData.rtd.maxMessagesDistance,
-          "minTripTime":unitData.rtd.minTripTime,
-          "minTripDistance":unitData.rtd.minTripDistance
+          "itemId":parseInt(item_id),
+          "type":unit_properties.rtd.type,
+          "gpsCorrection":unit_properties.rtd.gpsCorrection,
+          "minSat":unit_properties.rtd.minSat,
+          "minMovingSpeed":unit_properties.rtd.minMovingSpeed,
+          "minStayTime": unit_properties.rtd.minStayTime,
+          "maxMessagesDistance":unit_properties.rtd.maxMessagesDistance,
+          "minTripTime":unit_properties.rtd.minTripTime,
+          "minTripDistance":unit_properties.rtd.minTripDistance
         }
       }
       processedDataArray.push(updateTrip);
@@ -76,7 +103,7 @@ router.post('/units', async (req, res) => {
       let speedData = {
         "svc": "unit/update_report_settings",
         "params": {
-          "itemId":item_id,
+          "itemId":parseInt(item_id),
           "params":{
             "speedLimit": 0,
             "maxMessagesInterval": 0,
@@ -93,10 +120,10 @@ router.post('/units', async (req, res) => {
       processedDataArray.push(speedData);
 
       let unique_id = {
-        "svc": "unit/update_unique_id",
+        "svc": "unit/update_device_type",
         "params": {
-          "itemId":item_id,
-          "deviceTypeId":hw_id,
+          "itemId":parseInt(item_id),
+          "deviceTypeId":parseInt(hw_id),
           "uniqueId":imei[index]
         }
       }
@@ -107,10 +134,21 @@ router.post('/units', async (req, res) => {
     console.error('Failed to upload data:', error);
   }
   
-  const updateResponse = await updateService(processedDataArray, sessionId);
-  const update_res = await updateResponse.json();
+  try {
 
-  console.log('Update response:', update_res);
+    // Convert the array to a JSON string with indentation
+    const dataString = JSON.stringify(processedDataArray, null, 2);
+
+    // Write the string to a file
+    fs.writeFileSync('processedDataArray.txt', dataString);
+
+    console.log('(express/routes/register) Session ID:', sessionId);
+    const updateResponse = await updateService(processedDataArray, sessionId);
+    // const update_res = await updateResponse.json();
+    fs.writeFileSync('updateResponse.txt', JSON.stringify(updateResponse));
+  } catch (error) {
+    console.error('Error in updateService:', error);
+  }
 
   res.sendStatus(200);
 });

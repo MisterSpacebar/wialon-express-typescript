@@ -1,8 +1,10 @@
 // src/services/updateService.ts
+import fs from 'fs';
 
 const updateService = async (data: any, sessionId: any) => {
 
     const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/batch&sid=${sessionId}`;
+    fs.writeFileSync('stringifiedData.txt', JSON.stringify(data));
 
     // set up parameter array for the request
     const response = await fetch(url, {
@@ -15,11 +17,11 @@ const updateService = async (data: any, sessionId: any) => {
 
     // Check if the request was successful
     if (!response.ok) {
-        throw new Error('Failed to upload data');
+        throw new Error('Failed to update data');
     } else {
         const responseData = await response.json();
-        console.log('Data uploaded successfully');
-        console.log('Response:', responseData);
+        console.log('(express/service/update) Data uploaded successfully');
+        fs.writeFileSync('updateServiceResponse.txt', JSON.stringify(responseData));
         return responseData;
     }
 };

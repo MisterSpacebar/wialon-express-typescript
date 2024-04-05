@@ -1,4 +1,5 @@
 // src/services/uploadService.ts
+import fs from 'fs';
 
 const uploadData = async (data: any, sessionId: any) => {
 
@@ -31,8 +32,8 @@ const uploadData = async (data: any, sessionId: any) => {
         throw new Error('Failed to upload data');
     } else {
         const responseData = await response.json();
-        console.log('Data uploaded successfully');
-        console.log('Response:', responseData);
+        console.log('(express/service/upload) Data uploaded successfully');
+        fs.writeFileSync('uploadServiceResponse.txt', JSON.stringify(responseData));
         return responseData;
     }
 

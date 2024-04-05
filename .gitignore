@@ -1,2 +1,12 @@
 # environmental var
 .env
+loadedUnitData.txt
+processedDataArray.txt
+stringifiedData.txt
+unitIdArray.txt
+unitIDs.txt
+updateResponse.txt
+updateServiceResponse.txt
+uploadResponse.txt
+uploadServiceResponse.txt
+# python env

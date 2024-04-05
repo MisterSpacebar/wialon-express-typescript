@@ -15,6 +15,7 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
 
   const [name, setName] = useState('');
   const [imei, setImei] = useState('');
+  const [warning, setWarning] = useState<string | null>(null);
 
   const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setName(event.target.value);
@@ -52,9 +53,11 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
       unit_properties: unit
     };
 
+    console.log('(unitModal) Data:', JSON.stringify(unitData));
+
     try {
       console.log('Server:', server.port+'/upload/units');
-      console.log('Data:', JSON.stringify(unitData));
+      
 
       const response = await fetch(server.port+'/upload/units', {
         method: 'POST',
@@ -65,15 +68,22 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
       });
 
       if (response.ok) {
-        console.log('Data sent successfully');
+        console.log('Data sent to express server successfully');
+        setWarning('Data sent to express server successfully');
+        alert('Data sent to express server successfully');
         // Handle success case here
       } else {
         console.log('Failed to send data');
+        console.log('Failed to send data');
+        alert('Failed to send data');
         // Handle failure case here
       }
     } catch (error) {
       console.log('Error:', error);
+      setWarning('Error: ' + error);
+      alert('Error: ' + error);
       // Handle error case here
+
     }
   };
 
