@@ -104,6 +104,7 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
             //     <p>No unit selected</p>
             // )
         }
+        
         <Container>
             <Row className='unit-entries'>
               <Col className='unit-name d-flex flex-column justify-content-center align-items-center'>
@@ -115,7 +116,7 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
                   placeholder="Paste names here"></textarea>
               </Col>
               <Col className='unit-id d-flex flex-column justify-content-center align-items-center'>
-                <p className='unit-id'>IMEI:</p>
+                <p className='unit-id'>Unique ID:</p>
                 <textarea className='imei-text'
                   value={imei}
                   onChange={handleImeiChange}
