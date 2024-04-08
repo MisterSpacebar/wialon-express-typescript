@@ -1,0 +1,12 @@
+.unit-table {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+@media (max-width: 1000px) {
+    .unit-table {
+        max-width: 100%;
+    }
+}

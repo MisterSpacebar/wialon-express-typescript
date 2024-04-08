@@ -2,6 +2,7 @@ import { access } from 'fs';
 import React, { useState, useEffect, useContext } from 'react';
 //import DataContext  from './contexts/DataContext';
 import { server, DataContext } from '../App.tsx';
+import { Card } from 'react-bootstrap';
 
 type User = {
     session_id: string;
@@ -85,15 +86,13 @@ const Login = () => {
     }
 
     return (
-        // <DataContext.Provider value={data}>
-        //     <SetDataContext.Provider value={setData}>
-        //         <div>
-        //             {message}
-        //         </div>
-        //     </SetDataContext.Provider>
-        // </DataContext.Provider>
-        <div>
-            {message}
+
+        <div className="jumbotron jumbotron-fluid main-jumbo">
+            <Card className='main-page title-card band-card'>
+                <div>
+                    {message}
+                </div>
+            </Card>
         </div>
     );
 }

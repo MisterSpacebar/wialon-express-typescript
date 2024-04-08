@@ -94,15 +94,15 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
     </Modal.Header>
       <Modal.Body>
         {/* Your modal content here */
-            unit ? (
-                <div>
-                <p>Class: {unit.cls}</p>
-                <p>Unit ID: {unit.id}</p>
-                <p>Hardware ID: {unit.hw}</p>
-                </div>
-            ) : (
-                <p>No unit selected</p>
-            )
+            // unit ? (
+            //     <div>
+            //     <p>Class: {unit.cls}</p>
+            //     <p>Unit ID: {unit.id}</p>
+            //     <p>Hardware ID: {unit.hw}</p>
+            //     </div>
+            // ) : (
+            //     <p>No unit selected</p>
+            // )
         }
         <Container>
             <Row className='unit-entries'>
