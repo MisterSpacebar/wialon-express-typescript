@@ -133,7 +133,7 @@ router.post('/units', async (req, res) => {
         "svc":"unit/update_calc_flags",
         "params":{
           "itemId":parseInt(item_id),
-          "flags":parseInt(unit_properties.cfl)
+          "newValue":parseInt(unit_properties.cfl)
         }
       }
       processedDataArray.push(calc_flag);
