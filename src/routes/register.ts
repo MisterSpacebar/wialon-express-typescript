@@ -129,6 +129,43 @@ router.post('/units', async (req, res) => {
       }
       processedDataArray.push(unique_id);
 
+      let calc_flag = {
+        "svc":"unit/update_calc_flags",
+        "params":{
+          "itemId":parseInt(item_id),
+          "flags":parseInt(unit_properties.cfl)
+        }
+      }
+      processedDataArray.push(calc_flag);
+      
+      let fuel_rates = {
+        "svc":"unit/update_fuel_rates_params",
+        "params":{
+          "itemId":parseInt(item_id),	
+					"consSummer":parseFloat(unit_properties.rfc.fuelConsRates.consSummer),
+					"consWinter":parseFloat(unit_properties.rfc.fuelConsRates.consWinter),
+					"winterMonthFrom":parseInt(unit_properties.rfc.fuelConsRates.winterMonthFrom),
+					"winterDayFrom":parseInt(unit_properties.rfc.fuelConsRates.winterDayFrom),
+					"winterMonthTo":parseInt(unit_properties.rfc.fuelConsRates.winterMonthTo),
+					"winterDayTo":parseInt(unit_properties.rfc.fuelConsRates.winterDayTo)
+        }
+      }
+      processedDataArray.push(fuel_rates);
+
+      let fuel_math = {
+        "svc":"unit/update_fuel_math_params",
+        "params":{
+          "itemId":parseInt(item_id),
+          "idling":parseFloat(unit_properties.fuelConsMath.idling),
+					 "urban":parseFloat(unit_properties.fuelConsMath.urban),
+					 "suburban":parseFloat(unit_properties.fuelConsMath.suburban),
+					 "loadCoef":parseFloat(unit_properties.fuelConsMath.loadCoef),
+        }
+      }
+      processedDataArray.push(fuel_math);
+
+      
+
     });
   } catch (error) {
     console.error('Failed to upload data:', error);
