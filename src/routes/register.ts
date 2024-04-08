@@ -156,15 +156,13 @@ router.post('/units', async (req, res) => {
         "svc":"unit/update_fuel_math_params",
         "params":{
           "itemId":parseInt(item_id),
-          "idling":parseFloat(unit_properties.fuelConsMath.idling),
-					 "urban":parseFloat(unit_properties.fuelConsMath.urban),
-					 "suburban":parseFloat(unit_properties.fuelConsMath.suburban),
-					 "loadCoef":parseFloat(unit_properties.fuelConsMath.loadCoef),
+          "idling":parseFloat(unit_properties.rfc.fuelConsMath.idling),
+					"urban":parseFloat(unit_properties.rfc.fuelConsMath.urban),
+					"suburban":parseFloat(unit_properties.rfc.fuelConsMath.suburban),
+					"loadCoef":parseFloat(unit_properties.rfc.fuelConsMath.loadCoef),
         }
       }
       processedDataArray.push(fuel_math);
-
-      
 
     });
   } catch (error) {
