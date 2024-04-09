@@ -1,5 +1,6 @@
 # environmental var
 .env
+loadedTemplates.txt
 loadedUnitData.txt
 processedDataArray.txt
 stringifiedData.txt
@@ -9,4 +10,5 @@ updateResponse.txt
 updateServiceResponse.txt
 uploadResponse.txt
 uploadServiceResponse.txt
+/logs/
 # python env

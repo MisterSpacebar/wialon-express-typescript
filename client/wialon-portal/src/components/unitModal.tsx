@@ -105,8 +105,8 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
             // )
         }
 
-        <div>
-          <p>
+        <div className="unit-modal-insutrctions">
+          <p className='unit-modal-insutrctions-title'>
             Instructions
           </p>
           <p>

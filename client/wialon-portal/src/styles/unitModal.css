@@ -1,3 +1,19 @@
 .modal-top {
-    margin: 0.5rem auto;
-  }
+  margin: 0.5rem auto;
+}
+
+.unit-modal-insutrctions {
+  padding: 0 15%;
+}
+
+.unit-modal-insutrctions-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.unit-entries {
+  padding: 0 10%;
+}

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 //import DataContext  from './contexts/DataContext';
 import { server, DataContext } from '../App.tsx';
 import { Card } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 
 type User = {
     session_id: string;
@@ -91,7 +92,11 @@ const Login = () => {
             <Card className='main-page title-card band-card'>
                 <div>
                     {message}
+                    <br></br>
                 </div>
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </Card>
         </div>
     );
