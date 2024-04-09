@@ -90,7 +90,7 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
   return (
     <Modal className='modal-lg modal-top' show={show} onHide={onHide}>
     <Modal.Header closeButton>
-        <Modal.Title>{unit?.nm}</Modal.Title>
+        <Modal.Title>Upload Units: {unit?.nm}</Modal.Title>
     </Modal.Header>
       <Modal.Body>
         {/* Your modal content here */
@@ -104,7 +104,16 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
             //     <p>No unit selected</p>
             // )
         }
-        
+
+        <div>
+          <p>
+            Instructions
+          </p>
+          <p>
+            Paste the names and IDs of the units in the corresponding text area. Each name and ID should be on a separate line, Excel usually includes line breaks when pasting from a column. Make sure that is the case.
+          </p>
+        </div>
+
         <Container>
             <Row className='unit-entries'>
               <Col className='unit-name d-flex flex-column justify-content-center align-items-center'>
