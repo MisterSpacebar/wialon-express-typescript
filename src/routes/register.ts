@@ -48,15 +48,14 @@ router.post('/units', async (req, res) => {
     const unitResponse = await uploadService(registerUnits, sessionId);
     //console.log('(express/routes/register) Unit response:', unitResponse);
     fs.writeFileSync('uploadResponse.txt', JSON.stringify(unitResponse));
+    console.log('(express/routes/register) Unit response:', unitResponse[0]);
     // capture unit ids
     //unitIDs = unitResponse.map((unit: any) => {unit.item.id});
     let unitData = unitResponse;
-    (unitData: any[]) => {
-      unitData.forEach((unit: any) => {
-        unitIDs.push(unit.item.id);
-      });
-    }
-    fs.writeFileSync('unitIdArray.txt', JSON.stringify(unitData));
+    unitData.forEach((unit: any) => {
+      unitIDs.push(unit.item.id);
+    });
+    //fs.writeFileSync('unitIdArray.txt', JSON.stringify(unitData));
     console.log('(express/routes/register) Unit IDs:', unitIDs);
     fs.writeFileSync('unitIDs.txt', JSON.stringify(unitIDs));
 
@@ -167,11 +166,6 @@ router.post('/units', async (req, res) => {
       processedDataArray.push(fuel_math);
 
     });
-  } catch (error) {
-    console.error('Failed to upload data:', error);
-  }
-  
-  try {
 
     // Convert the array to a JSON string with indentation
     const dataString = JSON.stringify(processedDataArray, null, 2);
@@ -183,9 +177,26 @@ router.post('/units', async (req, res) => {
     const updateResponse = await updateService(processedDataArray, sessionId);
     // const update_res = await updateResponse.json();
     fs.writeFileSync('updateResponse.txt', JSON.stringify(updateResponse));
+
   } catch (error) {
-    console.error('Error in updateService:', error);
+    console.error('Failed to upload data:', error);
   }
+  
+  // try {
+
+  //   // Convert the array to a JSON string with indentation
+  //   const dataString = JSON.stringify(processedDataArray, null, 2);
+
+  //   // Write the string to a file
+  //   fs.writeFileSync('processedDataArray.txt', dataString);
+
+  //   console.log('(express/routes/register) Session ID:', sessionId);
+  //   const updateResponse = await updateService(processedDataArray, sessionId);
+  //   // const update_res = await updateResponse.json();
+  //   fs.writeFileSync('updateResponse.txt', JSON.stringify(updateResponse));
+  // } catch (error) {
+  //   console.error('Error in updateService:', error);
+  // }
 
   res.sendStatus(200);
 });

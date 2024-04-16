@@ -19,7 +19,7 @@ router.get('/session', (req, res) => {
         status: true,
         session_id: req.session.user.session_id,
         name: req.session.user.name,
-        user_id: parseInt(req.session.user.user_id),
+        user_id: req.session.user.user_id,
       };
       console.log('fetch count (session): ', fetchCount);
       fetchCount++;

@@ -33,6 +33,12 @@ const sessionOptions: session.SessionOptions = {
 
 app.use(session(sessionOptions));
 
+declare module 'express-session' {
+  export interface SessionData {
+    user?: { session_id: string; name: string; user_id: number; };
+  }
+}
+
 
 // Set up the login route
 app.use('/auth', authRouter);
