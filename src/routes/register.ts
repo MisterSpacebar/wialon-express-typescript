@@ -51,9 +51,11 @@ router.post('/units', async (req, res) => {
     // capture unit ids
     //unitIDs = unitResponse.map((unit: any) => {unit.item.id});
     let unitData = unitResponse;
-    unitData.forEach((unit: any) => {
-      unitIDs.push(unit.item.id);
-    });
+    (unitData: any[]) => {
+      unitData.forEach((unit: any) => {
+        unitIDs.push(unit.item.id);
+      });
+    }
     fs.writeFileSync('unitIdArray.txt', JSON.stringify(unitData));
     console.log('(express/routes/register) Unit IDs:', unitIDs);
     fs.writeFileSync('unitIDs.txt', JSON.stringify(unitIDs));

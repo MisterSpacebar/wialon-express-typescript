@@ -30,8 +30,8 @@ router.post('/token-login', async (req, res) => {
                 if(err){
                     console.log(err);
                 } else {
-                    console.log('Session saved');
-                    console.log("post-save: ",req.session.user);
+                    console.log('(express/auth) Session saved');
+                    console.log("(express/auth) post-save: ",req.session.user);
                     res.send(req.session.user);
                     console.log('fetch count (auth): ', fetchCount);
                     fetchCount++;

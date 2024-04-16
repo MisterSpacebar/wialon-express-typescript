@@ -33,6 +33,7 @@ const sessionOptions: session.SessionOptions = {
 
 app.use(session(sessionOptions));
 
+
 // Set up the login route
 app.use('/auth', authRouter);
 // set up the /logout route
@@ -44,15 +45,6 @@ app.use('/units', unitRouter);
 // Set up the upload route
 app.use('/upload', uploadRouter);
 
-// Proxy requests to the Vite development server during development
-if (process.env.NODE_ENV === 'development') {
-  const viteServerProxy = createProxyMiddleware({
-    target: `http://localhost:${portVite}`, // Vite development server default port
-    ws: true,
-  });
-  app.use(viteServerProxy);
-}
-
 // Serve the React application's build files in production
 if (process.env.NODE_ENV === 'production') {
   const clientBuildPath = path.join(__dirname, '../client/wialon-portal/dist');
@@ -60,6 +52,18 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(clientBuildPath, 'index.html'));
   });
+}
+
+// Proxy requests to the Vite development server during development
+if (process.env.NODE_ENV === 'development') {
+  const viteServerProxy = createProxyMiddleware({
+    target: `http://localhost:${portVite}`, // Vite development server default port
+    ws: true,
+  });
+  app.use(viteServerProxy);
+} else {
+  // Serve static files in production
+  app.use(express.static('dist'));
 }
 
 app.listen(portExpress, () => {
