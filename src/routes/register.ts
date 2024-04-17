@@ -33,6 +33,7 @@ router.post('/units', async (req, res) => {
   const sensors = unit_properties.sens;
   const hw_id = unit_properties.hw;
   const user_id = unit_properties.crt;
+  const template_id = unit_properties.id;
 
   //registration data to be sent to service
   let registerUnits = {
@@ -45,12 +46,16 @@ router.post('/units', async (req, res) => {
 
   //uploadService.uploadData(processedDataArray, sessionId);
   try {
-    const unitResponse = await uploadService(registerUnits, sessionId);
+    let unitResponse = await uploadService(registerUnits, sessionId, template_id);
     //console.log('(express/routes/register) Unit response:', unitResponse);
     fs.writeFileSync('uploadResponse.txt', JSON.stringify(unitResponse));
     console.log('(express/routes/register) Unit response:', unitResponse[0]);
     // capture unit ids
     //unitIDs = unitResponse.map((unit: any) => {unit.item.id});
+    let message_filters = unitResponse.pop();
+    let report_settings = unitResponse.pop();
+    console.log(message_filters);
+    console.log(report_settings);
     let unitData = unitResponse;
     unitData.forEach((unit: any) => {
       unitIDs.push(unit.item.id);

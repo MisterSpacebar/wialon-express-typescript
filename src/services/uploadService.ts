@@ -1,7 +1,7 @@
 // src/services/uploadService.ts
 import fs from 'fs';
 
-const uploadData = async (data: any, sessionId: any) => {
+const uploadData = async (data: any, sessionId: any, template_id: any) => {
 
     const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/batch&sid=${sessionId}`;
 
@@ -18,6 +18,19 @@ const uploadData = async (data: any, sessionId: any) => {
         }
     });
 
+    let report_settings = {
+        "svc":"svc=unit/get_report_settings",
+        "params":{"itemId":template_id}
+    }
+    let message_filters = {
+        "svc":"unit/get_messages_filter",
+        "params":{"itemId":template_id}
+    }
+
+    params.push(report_settings);
+    params.push(message_filters);
+
+    fs.writeFileSync('uploadServiceData.txt', JSON.stringify(params));
     // Make a request to the URL
     const response = await fetch(url, {
         method: 'POST',
