@@ -39,8 +39,8 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
   const handleSave = async () => {
     console.log('Save button clicked');
 
-    let nameArray = name.split('\n');
-    let imeiArray = imei.split('\n');
+    let nameArray = name.split('\n').filter(line => line.trim() !== '');
+    let imeiArray = imei.split('\n').filter(line => line.trim() !== '');
 
     console.log('Name:', nameArray);
     console.log('IMEI:', imeiArray);
