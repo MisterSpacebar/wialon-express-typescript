@@ -3,12 +3,15 @@
 import express from 'express';
 import authService from '../services/authService';
 
-
 const router = express.Router();
 
-let fetchCount: number = 1;
+type user = {
+    session_id: string;
+    name: string;
+    user_id: number;
+};
 
-router.post('/token-login', async (req, res) => {
+router.post('/token-login', async (req: express.Request, res: express.Response) => {
     console.log(req.body.accessToken);
     console.log('token-login route');
     const authToken = req.body.accessToken;
@@ -18,10 +21,11 @@ router.post('/token-login', async (req, res) => {
 
         if (user) {
             console.log('Authentication successful');
-            //console.log(user);
             // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
             req.session.user = {
                 // unique session id per login
+                // WARNING: express sessions do not scale well
+                //
                 session_id: user.eid,
                 name: user.au,
                 user_id: user.user.id
@@ -30,15 +34,12 @@ router.post('/token-login', async (req, res) => {
                 if(err){
                     console.log(err);
                 } else {
-                    console.log('(express/auth) Session saved');
-                    console.log("(express/auth) post-save: ",req.session.user);
+                    console.log('Session saved');
+                    console.log("post-save: ",req.session.user);
                     res.send(req.session.user);
-                    console.log('fetch count (auth): ', fetchCount);
-                    fetchCount++;
                 }
-            })
-            //console.log('session object');
-            //console.log(req.session.user);
+            });
+
         } else {
             res.status(401).send('Authentication failed');
         }

@@ -1,5 +1,5 @@
 // User.tsx
-import React, { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Header from './Header.tsx';
 import { server, DataContext } from '../App.tsx';
 
@@ -20,9 +20,14 @@ let templateUser: User = {
 const UserComponent = () => {
   let [user, setUser] = useState<User>(templateUser);
   const { data, setData } = useContext(DataContext);
+  let logged = false;
 
     useEffect(() => {
       
+        // Fetch user data from the server
+        // The user data is stored in the user state
+        // The user data is also stored in the data context
+        // The user data is used to determine if the user is logged in
         const fetchData = async () => {
           try {
             const response = await fetch(server.port+'/user/session', { credentials: 'include' });
@@ -32,6 +37,8 @@ const UserComponent = () => {
               console.log('Response body (JSON):', JSON.parse(responseBody));
               let ResBodyJson = JSON.parse(responseBody);
               // force user template to be updated
+              // this is to ensure that the user data is updated
+              // WARNING: react state updates are asynchronous
               let userData: User = {
                 session_id: ResBodyJson.user.session_id,
                 name: ResBodyJson.user.name,
@@ -41,6 +48,7 @@ const UserComponent = () => {
               setUser(userData);
               setData(userData);
               console.log('setUser', user);
+              logged = true;              
             } else {
               console.error('Fetching user data failed:', response);
             }
@@ -50,15 +58,26 @@ const UserComponent = () => {
         };
         fetchData();
       
-    }, []);
+    }, [user]);
+
+    // Reload the page if the user is logged in
+    // This is to ensure that the user data is updated
+    // and the user is redirected to the correct page
+    // This will cause the page to be stuck in a loop if the user is not logged in
+    useEffect(() => {
+      if (user.name !== '') {
+        window.location.reload();
+      }
+    }, [logged]);
 
 
 
     console.log('User (State):', user);
     console.log('User (Context):', data);
 
+    // If the user is not logged in, display a loading message
     if(!user.name) {
-      return <div> <Header /> <p>Loading...</p> </div>
+      return <div> <Header /> <p>Loading... please try logging in again or refreshing if login is not successful or is stuck on this screen as you may have been timed out from the Wialon servers.</p> </div>
     }
 
     return (

@@ -1,6 +1,9 @@
 // src/services/updateService.ts
 import fs from 'fs';
 
+// batch update units with properties
+// this does not update the name or hardware type of the units
+// and does not assign them to any unit groups
 const updateService = async (data: any, sessionId: any) => {
 
     const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/batch&sid=${sessionId}`;

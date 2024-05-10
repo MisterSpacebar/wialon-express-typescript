@@ -1,5 +1,7 @@
 // src/services/authService.ts
 
+// logs in the user with the token
+// requires the token from the wialon login
 async function authenticate(token: string) {
   console.log(token);
     console.log('authenticating token');

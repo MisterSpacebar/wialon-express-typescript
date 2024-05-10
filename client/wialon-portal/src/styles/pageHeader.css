@@ -1,3 +1,11 @@
 .page-header {
     text-align: center;
 }
+
+.user-name-header {
+    margin-left: 10px;
+}
+
+.logout-button-header {
+    margin-right: 10px;
+}

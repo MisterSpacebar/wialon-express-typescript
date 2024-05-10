@@ -1,6 +1,9 @@
 // src/services/uploadService.ts
 import fs from 'fs';
 
+
+// batch create units with names and hardware type
+// this does not assign units any properties except for the hardware type and name
 const uploadData = async (data: any, sessionId: any, template_id: any) => {
 
     const url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/batch&sid=${sessionId}`;
@@ -19,7 +22,7 @@ const uploadData = async (data: any, sessionId: any, template_id: any) => {
     });
 
     let report_settings = {
-        "svc":"svc=unit/get_report_settings",
+        "svc":"unit/get_report_settings",
         "params":{"itemId":template_id}
     }
     let message_filters = {

@@ -16,7 +16,7 @@ const LoggedOut: React.FC = () => {
         console.error('There has been a problem with your fetch operation:', error);
     }
 
-    const handleLogoutSuccess = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleLogoutSuccess = (_event: React.MouseEvent<HTMLButtonElement>) => {
         navigate('/');
     };
 

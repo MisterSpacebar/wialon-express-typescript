@@ -1,23 +1,9 @@
-import { access } from 'fs';
-import React, { useState, useEffect, useContext } from 'react';
+
+import { useState, useEffect, useContext } from 'react';
 //import DataContext  from './contexts/DataContext';
 import { server, DataContext } from '../App.tsx';
-import { Card } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
-
-type User = {
-    session_id: string;
-    name: string;
-    user_id: number;
-};
-
-let defaultUser: User = {
-    session_id: '',
-    name: '',
-    user_id: 0
-};
-
-let fetchCount: number = 1;
 
 const Login = () => {
     console.log('login component mounted');
@@ -27,11 +13,15 @@ const Login = () => {
     const { data, setData} = useContext(DataContext);
 
     useEffect(() => {
+        // Check if the request has been sent
         if(!requestSent) {
             const url = window.location.href;
             const params = new URLSearchParams(url);
             const accessToken = params.get('access_token');
             
+            // Check if the access token is present
+            // If the access token is present, send it to the server
+            // If the access token is not present, display an error message
             if (accessToken) {
                 setLoginStatus('success');
                 console.log(accessToken);
@@ -51,8 +41,8 @@ const Login = () => {
                     console.log("server response: ",responseData);
                     let user = JSON.parse(responseData);
                     console.log('User data:', user);
-                    console.log('fetchCount:', fetchCount);
-                    fetchCount++;
+
+                    // Check if the user data is in the expected format
                     if (user && 'session_id' in user && 'name' in user && 'user_id' in user) {
                         if (setData) {
                             setData(user);
@@ -70,18 +60,26 @@ const Login = () => {
         }
     }, []);
 
+    // Send the user data to the parent window
+    // and close the popup window
     useEffect(() => {
         console.log('Data (stored):', data);
         window.opener.postMessage('login-success', '*');
         window.opener.postMessage(JSON.stringify(data) , '*');
+        // Close the window after 3 seconds
+        // Seems to get stuck at 2 seconds
         setTimeout(() => {
             window.close();
         }, 3000);
     }, [data]);
 
+    // Display a message to the user
+    // based on the login status
+    // and the request status
+    // This will be displayed while the request is being processed
     let message;
     if (loginStatus === 'success') {
-    message = <div>Login successful! You will be redirected in 5 seconds.</div>;
+    message = <div>Handshake Achieved! You should be redirected in 5 seconds.</div>;
     } else if (loginStatus === 'failure') {
     message = <div>Login failed!</div>;
     }

@@ -10,3 +10,8 @@
         max-width: 100%;
     }
 }
+
+.unit-search-bar {
+    max-width: 600px;
+    margin: 0 auto;
+}
