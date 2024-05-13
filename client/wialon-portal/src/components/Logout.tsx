@@ -5,6 +5,8 @@ const LoggedOut: React.FC = () => {
     const navigate = useNavigate();
 
     try {
+        // Send a request to the server to log the user out
+        // AT THE TIME OF IMPLEMENTATION, THIS FUNCTIONALITY SEEMS TO BE BROKEN
         fetch('/auth/logout', {
             method: 'POST',
             headers: {

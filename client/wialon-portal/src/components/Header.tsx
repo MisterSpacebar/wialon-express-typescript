@@ -8,6 +8,9 @@ const Header = () => {
     const { data } = useContext(DataContext);
     const handleLogout = async () => {
         try {
+
+          // Send a request to the server to log the user out
+          // AT THE TIME OF IMPLEMENTATION, THIS FUNCTIONALITY SEEMS TO BE BROKEN
           const response = await fetch('/logout', {
             method: 'GET',
             headers: {
