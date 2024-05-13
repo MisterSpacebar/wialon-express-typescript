@@ -15,6 +15,9 @@ router.get('/session', (req, res) => {
     console.log('(express/routes/user) user: ',req.session.user);
     if (req.session.user) {
       console.log('(express/src/user) User session found', req.session.user);
+      // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
+      // WARNING: express sessions do not scale well
+      
       const user: User = {
         status: true,
         session_id: req.session.user.session_id,
