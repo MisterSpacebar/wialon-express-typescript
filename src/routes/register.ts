@@ -215,7 +215,7 @@ router.post('/units', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('Error in updateService:', error);
+    console.error('(express/routes/register) Error in updateService:', error);
   }
 
   res.sendStatus(200);

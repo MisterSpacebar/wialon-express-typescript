@@ -11,8 +11,8 @@ type User = {
 let fetchCount: number = 1;
 
 router.get('/session', (req, res) => {
-    console.log('(express/src/user) connected to user session route');
-    console.log('(express/src/user) user: ',req.session.user);
+    console.log('(express/routes/user) connected to user session route');
+    console.log('(express/routes/user) user: ',req.session.user);
     if (req.session.user) {
       console.log('(express/src/user) User session found', req.session.user);
       const user: User = {
@@ -28,7 +28,7 @@ router.get('/session', (req, res) => {
   
       res.json({ user });
     } else {
-      console.log('(express/src/user) User session not found');
+      console.log('(express/routes/user) User session not found');
       res.json({ user: { status: false } });
     }
   });
