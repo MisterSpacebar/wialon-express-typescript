@@ -37,9 +37,6 @@ const UnitModal: React.FC<UnitModalProps> = ({ show, onHide, unit, session_id })
     }
   }, [show]);
 
-  // console.log('Name text:', name);
-  // console.log('IMEI text:', imei);
-
   // Send the data to the server to be processed
   const handleSave = async () => {
     console.log('Save button clicked');

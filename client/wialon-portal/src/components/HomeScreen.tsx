@@ -28,7 +28,6 @@ function HomeScreen() {
           } else {
             try {
               let userData = JSON.parse(event.data);
-              // console.log('raw data:', event.data);
               console.log("post message data: " + JSON.stringify(userData));
               setData(userData);
               navigate('/user');;

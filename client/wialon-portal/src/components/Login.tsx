@@ -1,6 +1,5 @@
 
 import { useState, useEffect, useContext } from 'react';
-//import DataContext  from './contexts/DataContext';
 import { server, DataContext } from '../App.tsx';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
@@ -9,7 +8,6 @@ const Login = () => {
     console.log('login component mounted');
     const [loginStatus, setLoginStatus] = useState('');
     const [requestSent, setRequestSent] = useState(false);
-    // const newData = React.useContext(SetDataContext);
     const { data, setData} = useContext(DataContext);
 
     useEffect(() => {
