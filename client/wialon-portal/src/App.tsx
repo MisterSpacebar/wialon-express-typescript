@@ -4,15 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './styles/titleCard.css';
 
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-
 // importing pages/components
 import User from './components/User';
 import Login from './components/Login';
 import HomeScreen from './components/HomeScreen';
 
+// define the user data type
+// this will be what is going to be sent to the client
 type User = {
   session_id: string;
   name: string;

@@ -1,6 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
+// Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
+// overloaded from index.ts
 type User = {
     status: boolean;
     session_id: string;
@@ -15,6 +17,7 @@ router.get('/session', (req, res) => {
     console.log('(express/routes/user) user: ',req.session.user);
     if (req.session.user) {
       console.log('(express/src/user) User session found', req.session.user);
+
       // Define the 'user' property on the 'Session' interface or 'Partial<SessionData>' type
       // WARNING: express sessions do not scale well
       
