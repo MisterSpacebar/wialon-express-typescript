@@ -11,4 +11,5 @@ updateServiceResponse.txt
 uploadResponse.txt
 uploadServiceResponse.txt
 /logs/
+node_modules/
 # python env
