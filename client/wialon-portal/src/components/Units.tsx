@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { server, DataContext } from '../App.tsx';
 import UnitModal from './unitModal.tsx';
 
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import '../styles/pageHeader.css';
@@ -16,7 +16,6 @@ interface UnitsData {
   hw: number; // Hardware ID
   // Add more properties as needed
 }
-
 // let loadedUnits = [];
 
 const Units = () => {
@@ -28,6 +27,8 @@ const Units = () => {
     // state for modal
     const [modalShow, setModalShow] = useState(false);
     const [selectedUnit, setSelectedUnit] = useState<UnitsData | null>(null);
+    const [hardwareIDs, setHardwareIDs] = useState<any[]>([]);
+    //const [hardwareNames, setHardwareNames] = useState<String[]>([]);
 
     const [searchUnit, setSearchUnit] = useState('template');
     const [unitSearch, setUnitSearch] = useState(searchUnit);
@@ -55,6 +56,16 @@ const Units = () => {
                 console.log('Unit data:', unitData);
                 setTotalUnits(unitData.totalItemsCount);
                 setUnits(unitData.items);
+
+                let hardware_ids: any[] = [];
+                for (let i = 0; i < unitData.items.length; i++) {
+                  console.log('Hardware ID:', unitData.items[i].hw);
+                  hardware_ids.push(unitData.items[i].hw);
+                }
+                setHardwareIDs(hardware_ids);
+                console.log('Hardware IDs:', hardware_ids);
+                console.log('Hardware IDs (saved):', hardwareIDs);
+
             })
             .catch(unitData => {
                 // Handle the error
@@ -64,6 +75,28 @@ const Units = () => {
             console.error('No user data available', data);
         }
     }, [searchTrigger]);
+
+    useEffect(() => {
+      const fetchHardwareIDs = async () => {
+        console.log('Fetching hardware data: session id: ', data?.session_id);
+        console.log('Hardware IDs (fetch):', hardwareIDs);
+        let url = `https://hst-api.wialon.us/wialon/ajax.html?svc=core/get_hw_types&params={"filterType":"id","filterValue":[${hardwareIDs}],"includeType":true,"ignoreRename":false}&sid=${data?.session_id}`;
+        console.log('hardware URL:', url);
+        fetch(url, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json'
+              // Include other headers here
+          },
+      }).then(response => response.json()).then(data => {
+        console.log('Hardware data:', data);
+      }).catch(error => {
+          console.error('Error:', error);
+      })
+      }
+
+      fetchHardwareIDs();
+    }, [hardwareIDs]);
 
     return (
         <div>
@@ -90,7 +123,7 @@ const Units = () => {
                   <th>#</th>
                   <th>Name</th>
                   <th>Class</th>
-                  <th>ID</th>
+                  <th>Unit ID</th>
                   <th>Hardware ID</th>
                   {/* Add more headers as needed */}
                 </tr>

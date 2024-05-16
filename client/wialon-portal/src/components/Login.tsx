@@ -1,14 +1,16 @@
 
 import { useState, useEffect, useContext } from 'react';
+//import DataContext  from './contexts/DataContext';
 import { server, DataContext } from '../App.tsx';
-import Card from 'react-bootstrap/Card';
+import { Card } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 
 const Login = () => {
     console.log('login component mounted');
     const [loginStatus, setLoginStatus] = useState('');
     const [requestSent, setRequestSent] = useState(false);
-    const { data, setData} = useContext(DataContext);
+    // const newData = React.useContext(SetDataContext);
+    const { data, setData } = useContext(DataContext);
 
     useEffect(() => {
         // Check if the request has been sent
@@ -77,7 +79,7 @@ const Login = () => {
     // This will be displayed while the request is being processed
     let message;
     if (loginStatus === 'success') {
-    message = <div>Handshake Achieved! You should be redirected in 5 seconds.</div>;
+    message = <div>Handshake Achieved! You should be redirected in a few seconds.</div>;
     } else if (loginStatus === 'failure') {
     message = <div>Login failed!</div>;
     }
