@@ -30,7 +30,7 @@ function HomeScreen() {
               let userData = JSON.parse(event.data);
               console.log("post message data: " + JSON.stringify(userData));
               setData(userData);
-              navigate('/user');;
+              navigate('/user');
               window.removeEventListener('message', handleLoginSuccess); // Stop listening for message events
               window.location.reload();
             } catch (error) {
