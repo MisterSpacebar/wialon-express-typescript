@@ -11,6 +11,7 @@ import { logoutRoute } from './routes/logout';
 import userSessionRouter from './routes/userSession';
 import unitRouter from './routes/allUnits';
 import uploadRouter from './routes/register';
+import hardwareIDRouter from './routes/hardwareID';
 
 const app: Application = express();
 
@@ -72,6 +73,8 @@ app.use('/user', userSessionRouter);
 app.use('/units', unitRouter);
 // Set up the upload route
 app.use('/upload', uploadRouter);
+// Set up hardware ID route
+app.use('/hardware_id', hardwareIDRouter);
 // catch all route
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname,'../client/wialon-portal/dist/index.html'));
