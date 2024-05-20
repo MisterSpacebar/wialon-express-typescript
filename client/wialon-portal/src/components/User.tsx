@@ -64,6 +64,8 @@ const UserComponent = () => {
     // This is to ensure that the user data is updated
     // and the user is redirected to the correct page
     // This will cause the page to be stuck in a loop if the user is not logged in
+    //
+    // Hacky fix to get the user data to update after login
     useEffect(() => {
       if (user.name !== '') {
         window.location.reload();
