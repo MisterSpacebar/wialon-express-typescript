@@ -1,8 +1,9 @@
 // User.tsx
 import { useEffect, useContext, useState } from 'react';
-import Header from './Header.tsx';
 import { server, DataContext } from '../App.tsx';
 
+// child components
+import Header from './Header.tsx';
 import Units from './Units.tsx';
 
 type User = {
