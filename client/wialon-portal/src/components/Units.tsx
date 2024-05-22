@@ -16,6 +16,7 @@ interface UnitsData {
   hw: number; // Hardware ID
   // Add more properties as needed
 }
+// let loadedUnits = [];
 
 const Units = () => {
     console.log('Units component mounted');
@@ -95,7 +96,6 @@ const Units = () => {
               placeholder="Search for a unit"
               aria-label="Search for a unit"
               aria-describedby="basic-addon2"
-              value={searchUnit}
               onChange={e => setSearchUnit(e.target.value)}
             />
             <Button variant="primary" id="button-addon2" onClick={handleSearchUnit}>
