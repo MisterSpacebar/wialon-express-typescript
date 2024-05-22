@@ -21,7 +21,8 @@ let templateUser: User = {
 const UserComponent = () => {
   let [user, setUser] = useState<User>(templateUser);
   const { data, setData } = useContext(DataContext);
-  let logged = false;
+  const [userChange, setUserChange] = useState(false);
+  // let logged = false;
 
     useEffect(() => {
       
@@ -49,7 +50,7 @@ const UserComponent = () => {
               setUser(userData);
               setData(userData);
               console.log('setUser', user);
-              logged = true;              
+                          
             } else {
               console.error('Fetching user data failed:', response);
             }
@@ -70,13 +71,18 @@ const UserComponent = () => {
     useEffect(() => {
       if (user.name !== '') {
         window.location.reload();
+        console.log('User (State):', user);
+        console.log('User (Context):', data);
       }
-    }, [logged]);
+    }, [userChange]);
 
+    useEffect(() => {
+      if(userChange == false) { 
+        setUserChange(!userChange);
+        // logged = true;  
+      }
+    }, [user]);
 
-
-    console.log('User (State):', user);
-    console.log('User (Context):', data);
 
     // If the user is not logged in, display a loading message
     if(!user.name) {

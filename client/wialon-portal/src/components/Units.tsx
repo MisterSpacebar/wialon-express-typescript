@@ -16,7 +16,6 @@ interface UnitsData {
   hw: number; // Hardware ID
   // Add more properties as needed
 }
-// let loadedUnits = [];
 
 const Units = () => {
     console.log('Units component mounted');
