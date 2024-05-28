@@ -1,15 +1,19 @@
 # environmental var
 .env
+loadedTemplateData.txt
 loadedTemplates.txt
 loadedUnitData.txt
 processedDataArray.txt
 stringifiedData.txt
 unitIdArray.txt
 unitIDs.txt
+unitGroup.txt
+unitGroupResponse.txt
 updateResponse.txt
 updateServiceResponse.txt
 uploadResponse.txt
+uploadServiceData.txt
 uploadServiceResponse.txt
+getEcoData.txt
 /logs/
-node_modules/
 # python env

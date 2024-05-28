@@ -37,7 +37,11 @@ const Units = () => {
     // Function to handle the search unit, search is triggered by state change
     const handleSearchUnit = () => {
       setSearchTrigger(!searchTrigger)
-      setUnitSearch(searchUnit);
+      if (searchUnit !== '') {
+        setUnitSearch(searchUnit);
+      } else if(searchUnit === '') {
+        setUnitSearch('*');
+      }
     }
 
     // Fetch unit data from the server and update component state
@@ -109,7 +113,7 @@ const Units = () => {
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Class</th>
+                  {/* <th>Class</th> */}
                   <th>Unit ID</th>
                   <th>Hardware ID</th>
                   {/* Add more headers as needed */}
@@ -118,9 +122,9 @@ const Units = () => {
               <tbody>
                 {units?.map((item, index) => (
                   <tr className='unit' key={index}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{item.nm}</td>
-                    <td>{item.cls}</td>
+                    {/* <td>{item.cls}</td> */}
                     <td>{item.id}</td>
                     <td>{item.hw}</td>
                     {/* Add more cells as needed */}

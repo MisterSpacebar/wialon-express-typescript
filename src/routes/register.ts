@@ -5,6 +5,7 @@ import { parse } from 'path';
 import fs from 'fs';
 import getUnitGroups from '../services/unitGroupService';
 import registerUnitGroups from '../services/registerUnitGroup';
+import getEcoService from '../services/getEcoService';
 
 const router = express.Router();
 
@@ -45,7 +46,10 @@ router.post('/units', async (req, res) => {
 
   try {
     console.log('(express/routes/register) create unit route hit');
+    // upload the units to the server
     let unitResponse: any = await uploadService(registerUnits, sessionId, template_id);
+    // get "eco driving" data from the template unit
+    let ecoData: any = await getEcoService(template_id, sessionId);
     //console.log('(express/routes/register) Unit response:', unitResponse);
     fs.writeFileSync('uploadResponse.txt', JSON.stringify(unitResponse));
 
@@ -183,6 +187,31 @@ router.post('/units', async (req, res) => {
         }
       }
       processedDataArray.push(fuel_math);
+
+      let unit_image = { 
+        "svc":"unit/update_image",
+        "params":{
+          "itemId":parseInt(item_id),
+          "oldItemId":parseInt(template_id)
+        }
+      }
+      processedDataArray.push(unit_image);
+
+      let eco_data = {
+        "svc":"unit/update_drive_rank_settings",
+        "params":{
+          "itemId":parseInt(item_id),
+          "driveRank": {
+            "acceleration":ecoData.acceleration,
+            "brake":ecoData.brake,
+            "turn":ecoData.turn,
+            "sensor":ecoData.sensor,
+            "speeding":ecoData.speeding,
+            "harsh":ecoData.harsh
+          }
+        }
+      }
+      processedDataArray.push(eco_data);
     });
 
   } catch (error) {

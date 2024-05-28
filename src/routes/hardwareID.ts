@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/hardwareID/:session_id/:hardware_ids', async (req: Request, res: Response) => {
     try {
         // Call the hardwareIDService to fetch the data
+        console.log('(express/routes/hardware) Fetching hardware ID data...');
         let hardware_ids: number[] = req.params.hardware_ids.split(',').map(Number);
         let data = await hardwareIDService(hardware_ids, req.params.session_id);
 
